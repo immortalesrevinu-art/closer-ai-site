@@ -1,5 +1,5 @@
 {
- "generated_at_utc": "2026-10-03T03:52Z",
+ "generated_at_utc": "2026-10-03T04:10Z",
  "show_dollars": true,
  "totals": {
   "settled": 112,
@@ -1050,17 +1050,17 @@
   {
    "name": "1-contract bets",
    "rows_used": 128,
-   "updated_utc": "2026-10-03T03:52Z"
+   "updated_utc": "2026-10-03T04:07Z"
   },
   {
    "name": "tennis closer",
    "rows_used": 3,
-   "updated_utc": "2026-10-03T03:49Z"
+   "updated_utc": "2026-10-03T04:04Z"
   },
   {
    "name": "copy bets",
    "rows_used": 16,
-   "updated_utc": "2026-10-02T05:08Z"
+   "updated_utc": "2026-10-03T04:08Z"
   }
  ],
  "notes": [
