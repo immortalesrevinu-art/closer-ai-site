@@ -36,10 +36,10 @@
     }).join('') || '<tr><td colspan="9" class="mute">No bets yet.</td></tr>';
     $('recent-sub').textContent = `latest ${D.recent.length}`;
     $('recent').innerHTML = D.recent.map((r) => `<tr>
-        <td>${esc(fmtAt(r.at_utc))}</td><td>${esc(r.strategy_name)}</td><td>${esc(r.label)}</td>
-        <td><span class="out">${esc(r.side)}${r.pick ? ' · ' + esc(r.pick) : ''}</span></td>
+        <td>${esc(fmtAt(r.at_utc))}</td><td>${esc(r.strategy_name)}</td><td>${r.detail === 'aggregate' ? '<span class="mute">details not published</span>' : esc(r.label)}</td>
+        <td>${r.side ? `<span class="out">${esc(r.side)}${r.pick ? ' · ' + esc(r.pick) : ''}</span>` : '<span class="mute">–</span>'}</td>
         <td class="num">${r.price == null ? '–' : cents(r.price)}</td><td class="num hide-sm">${r.contracts ?? '–'}</td>
-        <td>${RES[r.status] || esc(r.status)}</td><td class="num ${cls(r.roi_pct)}">${pct(r.roi_pct, true)}</td>
+        <td>${RES[r.status] || esc(r.status)}</td><td class="num ${cls(r.roi_pct)}">${r.roi_pct == null ? '–' : pct(r.roi_pct, true)}</td>
         <td class="num usd ${cls(r.pnl_usd)}">${r.pnl_usd == null ? '–' : (r.pnl_usd > 0 ? '+' : '') + usd(r.pnl_usd)}</td></tr>`).join('');
     $('notes').textContent = (D.notes || []).join(' ');
     applyUsd();
@@ -51,9 +51,9 @@
   }
   $('usd-toggle').onclick = () => { showUsd = !showUsd; localStorage.setItem('ca_usd', showUsd ? '1' : '0'); applyUsd(); };
   $('csv').onclick = () => D && downloadCSV(`closer-ai-my-bots-${stamp()}.csv`, D.recent, [
-    { h: 'time_utc', v: (r) => r.at_utc }, { h: 'strategy', v: (r) => r.strategy_name }, { h: 'venue', v: (r) => r.venue }, { h: 'match', v: (r) => r.label },
+    { h: 'time_utc', v: (r) => r.at_utc }, { h: 'strategy', v: (r) => r.strategy_name }, { h: 'match', v: (r) => r.label },
     { h: 'side', v: (r) => r.side }, { h: 'pick', v: (r) => r.pick }, { h: 'price', v: (r) => r.price }, { h: 'contracts', v: (r) => r.contracts },
-    { h: 'result', v: (r) => r.status }, { h: 'roi_pct', v: (r) => r.roi_pct }].concat(D.show_dollars && showUsd ? [{ h: 'cost_usd', v: (r) => r.cost_usd }, { h: 'pnl_usd', v: (r) => r.pnl_usd }] : []));
+    { h: 'result', v: (r) => r.status }, { h: 'roi_pct', v: (r) => r.roi_pct }].concat(D.show_dollars && showUsd ? [{ h: 'pnl_usd', v: (r) => r.pnl_usd }] : []));
   load();
   setInterval(load, 120000);
 })();
