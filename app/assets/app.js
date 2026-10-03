@@ -271,6 +271,7 @@ async function ask(slug) {
   if (ctx.profile?.state_blocked) return modal(`<h2>Ask your AI</h2>${blockedBox()}`);
   if (!active()) return modal(`<h2>Ask your AI</h2><p class="mute">This needs an active plan. <a href="#/pricing" data-close>See plans</a></p>`);
   if (!ctx.key) return modal(`<h2>Connect your AI first</h2><p class="mute" style="margin-top:8px">Pick a provider (Grok, OpenAI, Claude, Gemini or any OpenAI-compatible API) and paste your own key. Your provider bills you directly.</p><p style="margin-top:12px"><a class="btn" href="#/account" data-close>Connect your AI</a></p>`);
+  if (ctx.key.status === "invalid") return modal(`<h2>Ask your AI</h2><div class="flash err">Your saved ${esc(provName(ctx.key.provider))} key was rejected by the provider.</div><p><a class="btn" href="#/account" data-close>Replace your key</a></p>`);
   const hasBrk = ctx.brk.length > 0;
   modal(`<h2>Ask your AI</h2><p class="mute" style="margin:6px 0 10px;font-size:13px">${esc(provName(ctx.key.provider))} · <code>${esc(ctx.key.model || "")}</code> · billed to your provider account</p>
     ${hasBrk ? `<label class="mute" style="display:flex;gap:8px;font-size:13px;margin-bottom:10px"><input type="checkbox" id="inclH"> Include my brokerage holdings (read-only snapshot) as context</label>` : ""}
@@ -402,14 +403,14 @@ const views = {
         ${!active() && !p.state_blocked ? `<p style="margin-top:8px"><button class="btn" data-buy="member">Subscribe $19/mo</button></p>` : ""}</div></div>
       ${p.state_blocked ? "" : `<section class="card pad" id="connected"><h2>Connected accounts</h2>
         <p style="margin:8px 0 12px;font-size:13.5px">Closer AI is only a connection hub. <b>Your own AI</b> (your key) analyzes <b>your own connected accounts</b>. Closer AI gives no suggestions of its own and no shared picks. Your money never leaves your brokerage or market account: Closer AI holds <b>no funds</b> and has <b>read-only</b> access. Nothing here can place bets, trades, or transfers.</p>
-        <div class="g2" style="margin:0">
+        <div class="g2" style="margin:0;grid-template-columns:minmax(0,1fr)">
         <div class="conn" id="aicard" style="grid-column:1/-1"><div class="ic" style="background:var(--green)">${AIICON}</div><div style="flex:1;min-width:0"><h3>Your AI provider ${k ? statusTxt : '<span class="tag">not connected</span>'}</h3>
         ${k ? `<p><b>${esc(provName(k.provider))}</b>${k.base_url ? ` · <span class="mute">${esc(k.base_url)}</span>` : ""} · model <code>${esc(k.model || "")}</code> · key <code>••••${esc(k.last4)}</code></p><p class="mute" style="font-size:12px">${k.tested_at ? "Last checked " + new Date(k.tested_at).toLocaleString() : ""}</p>${modelPicker}
           <p style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn ghost sm" id="keytest">Test key</button><button class="btn ghost sm" id="keyrep">Replace / switch provider</button><button class="btn ghost sm" id="keydel">Delete</button></p>${keyForm(true)}`
         : `<p class="mute" style="font-size:13px">Pick any provider and use your own API key; runs bill to your account with that provider.</p>${keyForm(false)}`}</div></div>
         ${brkCard}
-        <div class="conn"><div class="ic" style="background:#2563eb">P</div><div><h3>Polymarket <span class="tag">view-only · coming soon</span></h3><p class="mute" style="font-size:13px">See your own positions read-only so your AI can analyze them. Public market data already works without connecting.</p></div></div>
-        <div class="conn"><div class="ic" style="background:#6b7280">K</div><div><h3>Kalshi <span class="tag">view-only · coming soon</span></h3><p class="mute" style="font-size:13px">Read-only view of your own positions. No trading, no transfers.</p></div></div>
+        <div class="g2" style="grid-column:1/-1;margin:0;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))"><div class="conn"><div class="ic" style="background:#2563eb">P</div><div><h3>Polymarket <span class="tag">view-only · coming soon</span></h3><p class="mute" style="font-size:13px">See your own positions read-only so your AI can analyze them. Public market data already works without connecting.</p></div></div>
+        <div class="conn"><div class="ic" style="background:#6b7280">K</div><div><h3>Kalshi <span class="tag">view-only · coming soon</span></h3><p class="mute" style="font-size:13px">Read-only view of your own positions. No trading, no transfers.</p></div></div></div>
         </div></section>`}`;
   },
 };
