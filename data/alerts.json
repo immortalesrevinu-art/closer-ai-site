@@ -1,5 +1,5 @@
 {
- "snapshot_at": 1790996861,
+ "snapshot_at": 1790999283,
  "source": "smart-money alert log",
  "log": [
   {
@@ -579,6 +579,38 @@
    "slug": "wnba-dal-gsv-2026-10-02",
    "asset": "88798964875804409216316124940683776768399792907049164311382275881183211765403",
    "at": 1790991802.0044403,
+   "result": null
+  },
+  {
+   "title": "Japan Open Tennis Championships: Denis Shapovalov vs Alejandro Tabilo",
+   "outcome": "Denis Shapovalov",
+   "traders": [
+    "HomeRunHazard",
+    "UpTheBlues"
+   ],
+   "n": 2,
+   "usd": 2380,
+   "their_avg": 0.51,
+   "ask_now": 0.49,
+   "slug": "atp-shapova-tabilo-2026-10-02",
+   "asset": "59484364948136031097253793194815916612408687544782099437400020470624909929307",
+   "at": 1790998786.9281244,
+   "result": null
+  },
+  {
+   "title": "China Open: Ashlyn Krueger vs Ann Li",
+   "outcome": "Ashlyn Krueger",
+   "traders": [
+    "HomeRunHazard",
+    "UpTheBlues"
+   ],
+   "n": 2,
+   "usd": 5266,
+   "their_avg": 0.61,
+   "ask_now": 0.54,
+   "slug": "wta-krueger-annli-2026-10-01",
+   "asset": "54563418335905423050509722383746051085709327525902970347051074985820277685839",
+   "at": 1790999127.6776567,
    "result": null
   }
  ]
