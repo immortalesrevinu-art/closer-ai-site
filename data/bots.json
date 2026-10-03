@@ -1,14 +1,14 @@
 {
- "generated_at_utc": "2026-10-03T14:02Z",
+ "generated_at_utc": "2026-10-03T17:58Z",
  "show_dollars": true,
  "totals": {
-  "settled": 113,
-  "wins": 68,
-  "losses": 45,
-  "open": 35,
-  "staked_usd": 455.29,
-  "pnl_usd": 24.84,
-  "roi_pct": 5.5
+  "settled": 99,
+  "wins": 59,
+  "losses": 40,
+  "open": 39,
+  "staked_usd": 231.97,
+  "pnl_usd": 57.87,
+  "roi_pct": 24.9
  },
  "strategies": [
   {
@@ -108,22 +108,6 @@
    "pnl_usd": 0.0
   },
   {
-   "key": "wallet_copy",
-   "name": "Wallet copies",
-   "description": "Copies of tracked top sports wallets, small fixed size.",
-   "settled": 14,
-   "wins": 9,
-   "losses": 5,
-   "closed_early": 2,
-   "open": 0,
-   "win_rate_pct": 64.3,
-   "roi_pct": -14.8,
-   "avg_price": null,
-   "last_bet_utc": "2026-10-01T14:32Z",
-   "staked_usd": 223.32,
-   "pnl_usd": -33.03
-  },
-  {
    "key": "alert_copy",
    "name": "Alert copies (Polymarket)",
    "description": "Copies of Sports DATA smart-money alerts on Polymarket US.",
@@ -138,6 +122,22 @@
    "last_bet_utc": "2026-10-01T18:54Z",
    "staked_usd": 51.98,
    "pnl_usd": 72.51
+  },
+  {
+   "key": "other",
+   "name": "Other",
+   "description": "Bets that don't map to a named strategy.",
+   "settled": 0,
+   "wins": 0,
+   "losses": 0,
+   "closed_early": 0,
+   "open": 4,
+   "win_rate_pct": null,
+   "roi_pct": null,
+   "avg_price": null,
+   "last_bet_utc": null,
+   "staked_usd": 0.0,
+   "pnl_usd": 0.0
   }
  ],
  "recent": [
@@ -1053,8 +1053,8 @@
   },
   {
    "name": "copy bets",
-   "rows_used": 16,
-   "updated_utc": "2026-10-03T05:09Z"
+   "rows_used": 4,
+   "updated_utc": "2026-10-03T17:50Z"
   }
  ],
  "notes": [
