@@ -1,0 +1,6 @@
+# box-only tooling: not published to the site
+build_bots_json.py
+refresh.sh
+PUBLISH.md
+*.tmp
+__pycache__/

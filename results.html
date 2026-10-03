@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07090d">
+<title>Alert results | Closer AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="logo" href="./">Closer<span>AI</span></a>
+  <nav class="nav"><a href="dashboard.html">Dashboard</a><a href="results.html" class="on">Results</a><a href="bots.html">My bots</a><a href="./" class="hide-sm">Home</a></nav>
+</div></header>
+<main class="wrap">
+  <div class="bar">
+    <h1>"Smart money agrees" alert results</h1>
+    <button class="btn ghost" id="csv">Download CSV</button>
+    <button class="btn" id="xlsx">⬇ Excel</button>
+  </div>
+  <p class="mute" style="margin:-6px 0 14px;font-size:13px" id="snap"></p>
+  <div class="stats">
+    <div class="stat"><b id="r-n">–</b><span>alerts logged</span></div>
+    <div class="stat"><b id="r-wl">–</b><span>settled wins–losses</span></div>
+    <div class="stat"><b id="r-rate">–</b><span>win rate (settled)</span></div>
+    <div class="stat"><b id="r-pnl">–</b><span>hypothetical P&amp;L, $100 per alert at alert ask</span></div>
+  </div>
+  <section class="card" style="margin-bottom:20px">
+    <div class="card-h"><h2>Alert log <span class="sub">tap a row for the price chart</span></h2></div>
+    <div class="tw"><table id="tbl" class="rcards">
+      <thead><tr><th>Alert time</th><th>Market</th><th>Outcome</th><th class="hide-sm">Traders</th><th class="num hide-sm">Their $</th><th class="num">Their avg</th><th class="num">Ask at alert</th><th class="num">Now</th><th>Result</th><th class="c-mob"></th></tr></thead>
+      <tbody id="body"><tr><td colspan="9" class="mute">Loading…</td></tr></tbody>
+    </table></div>
+    <p class="note" style="padding:0 16px 14px">Alerts fire when 2+ top Polymarket sports traders buy the same live outcome at 30–70¢ within 30 minutes. "Result" comes from the alert log (settled when the price reaches 99¢+ or 1¢ or less). "Now" is the live last-trade price; a pending alert at 99¢+/1¢- is marked as likely won/lost until the log is refreshed. P&amp;L is hypothetical ($100 at the ask when the alert fired, no fees) and is not a record of real trades.</p>
+  </section>
+<footer>
+  <p>Market data: Polymarket public read-only APIs (leaderboard, trades, CLOB price history), fetched directly by your browser. Closer AI is not affiliated with Polymarket. Showing what top traders bought is not a recommendation to copy them. Times are shown in your local time zone.</p>
+  <p><b>Closer AI</b> © 2026. A personal, read-only stats page showing bets placed on the owner's own Kalshi and Polymarket accounts. It does not sell picks or alerts, take payments or deposits, or manage anyone else's account or money. Records are unaudited and past results don't predict future results. Prediction market trading involves risk and you can lose money. Availability depends on your state's laws. Nothing here is financial or betting advice.</p>
+</footer>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+<script src="assets/pm.js" defer></script>
+<script src="assets/common.js" defer></script>
+<script src="assets/results.js" defer></script>
+</body>
+</html>

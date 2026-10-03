@@ -1,0 +1,585 @@
+{
+ "snapshot_at": 1790996861,
+ "source": "smart-money alert log",
+ "log": [
+  {
+   "title": "Spread: New York Yankees (-1.5)",
+   "outcome": "Boston Red Sox",
+   "traders": [
+    "HomeRunHazard",
+    "justaluckydude"
+   ],
+   "n": 2,
+   "usd": 2249,
+   "their_avg": 0.65,
+   "ask_now": 0.54,
+   "slug": "mlb-bos-nyy-2026-09-30",
+   "asset": "27200307539214517199989848040685199068747181097199955509359601474421492002416",
+   "at": 1790817667.2934473,
+   "result": null
+  },
+  {
+   "title": "Golden State Valkyries vs. Dallas Wings",
+   "outcome": "Golden State Valkyries",
+   "traders": [
+    "HomeRunHazard",
+    "takeormake"
+   ],
+   "n": 2,
+   "usd": 7090,
+   "their_avg": 0.67,
+   "ask_now": 0.68,
+   "slug": "wnba-gsv-dal-2026-09-30",
+   "asset": "52711532064192506622965846744529870205859964676609075672499507281733683463514",
+   "at": 1790818545.5002787,
+   "result": "loss"
+  },
+  {
+   "title": "Chicago Cubs vs. San Diego Padres",
+   "outcome": "San Diego Padres",
+   "traders": [
+    "HomeRunHazard",
+    "justaluckydude"
+   ],
+   "n": 2,
+   "usd": 5841,
+   "their_avg": 0.56,
+   "ask_now": 0.56,
+   "slug": "mlb-chc-sd-2026-09-30",
+   "asset": "79454439942177959189628380852814669891218098664921952600767211758112140027347",
+   "at": 1790821301.0624127,
+   "result": "win"
+  },
+  {
+   "title": "Golden State Valkyries vs. Dallas Wings",
+   "outcome": "Dallas Wings",
+   "traders": [
+    "HomeRunHazard",
+    "takeormake"
+   ],
+   "n": 2,
+   "usd": 4949,
+   "their_avg": 0.43,
+   "ask_now": 0.35,
+   "slug": "wnba-gsv-dal-2026-09-30",
+   "asset": "35668637275073263709964091806012799430315768584611277633138203586881472356756",
+   "at": 1790822233.6804712,
+   "result": "win"
+  },
+  {
+   "title": "Chicago Cubs vs. San Diego Padres: O/U 7.5",
+   "outcome": "Under",
+   "traders": [
+    "0xb4F9…c9A7",
+    "HomeRunHazard"
+   ],
+   "n": 2,
+   "usd": 5820,
+   "their_avg": 0.57,
+   "ask_now": 0.54,
+   "slug": "mlb-chc-sd-2026-09-30",
+   "asset": "81158520534739392295301156663593284068557474119082941889799345657955623722606",
+   "at": 1790822233.6804712,
+   "result": "win"
+  },
+  {
+   "title": "Japan Open Tennis Championships: Taylor Fritz vs Jaume Munar",
+   "outcome": "Jaume Munar",
+   "traders": [
+    "HomeRunHazard",
+    "UpTheBlues"
+   ],
+   "n": 2,
+   "usd": 5424,
+   "their_avg": 0.52,
+   "ask_now": 0.52,
+   "slug": "atp-fritz-munar-2026-09-30",
+   "asset": "87279728381859227101517035899546343315644553696217994744116995470054801177840",
+   "at": 1790823041.981833,
+   "result": "win"
+  },
+  {
+   "title": "Jingshan: Alevtina Ibragimova vs Kyoka Okamura",
+   "outcome": "Alevtina Ibragimova",
+   "traders": [
+    "HomeRunHazard",
+    "UpTheBlues"
+   ],
+   "n": 2,
+   "usd": 10961,
+   "their_avg": 0.69,
+   "ask_now": 0.67,
+   "slug": "wta-ibragim-okamura-2026-09-29",
+   "asset": "81433813980570946472152916935087722101078733581504576968709015799155973728081",
+   "at": 1790828321.0721502,
+   "result": null
+  },
+  {
+   "title": "Japan Open Tennis Championships: Taylor Fritz vs Jaume Munar",
+   "outcome": "Taylor Fritz",
+   "traders": [
+    "0x2a07…00D8",
+    "UpTheBlues",
+    "omnibus-076daa"
+   ],
+   "n": 3,
+   "usd": 9547,
+   "their_avg": 0.5,
+   "ask_now": 0.43,
+   "slug": "atp-fritz-munar-2026-09-30",
+   "asset": "17344135861369448280904138536462267006982529708380468868340823699800214481875",
+   "at": 1790829255.599355,
+   "result": "loss"
+  },
+  {
+   "title": "Counter-Strike: Astralis vs Alliance (BO3) - Stake Ranked Episode 4 Playoffs",
+   "outcome": "Astralis",
+   "traders": [
+    "BrotherObama",
+    "omnibus-076daa"
+   ],
+   "n": 2,
+   "usd": 5908,
+   "their_avg": 0.41,
+   "ask_now": 0.4,
+   "slug": "cs2-ast10-all-2026-10-01",
+   "asset": "95306711659052054556456703853976170253786621586053781428881449621719018374173",
+   "at": 1790873584.1240926,
+   "result": "loss"
+  },
+  {
+   "title": "Will Norway win on 2026-10-01?",
+   "outcome": "No",
+   "traders": [
+    "GoalLineGhost",
+    "UpTheBlues"
+   ],
+   "n": 2,
+   "usd": 3707,
+   "their_avg": 0.3,
+   "ask_now": 0.32,
+   "slug": "unl-wal-nor-2026-10-01",
+   "asset": "10027736897552577101125188250231793543926100904161319744908581901699901663003",
+   "at": 1790880701.2759402,
+   "result": "win"
+  },
+  {
+   "title": "Will Netherlands win on 2026-10-01?",
+   "outcome": "No",
+   "traders": [
+    "GoalLineGhost",
+    "omnibus-076daa"
+   ],
+   "n": 2,
+   "usd": 3415,
+   "their_avg": 0.57,
+   "ask_now": 0.57,
+   "slug": "unl-grc-nld-2026-10-01",
+   "asset": "44841156290552732075166288581204000707333321759547270052099724693625303529709",
+   "at": 1790880701.2759402,
+   "result": "win"
+  },
+  {
+   "title": "Athletic Club vs. SC Recife: O/U 4.5",
+   "outcome": "Over",
+   "traders": [
+    "GoalLineGhost",
+    "UpTheBlues"
+   ],
+   "n": 2,
+   "usd": 2260,
+   "their_avg": 0.5,
+   "ask_now": 0.48,
+   "slug": "bra2-ath-rec-2026-10-01-more-markets",
+   "asset": "53108884315796629334760210070434370417940454908463064997268880562134169425121",
+   "at": 1790899838.246526,
+   "result": "loss"
+  },
+  {
+   "title": "Philadelphia Phillies vs. Atlanta Braves",
+   "outcome": "Philadelphia Phillies",
+   "traders": [
+    "HomeRunHazard",
+    "surfandturf"
+   ],
+   "n": 2,
+   "usd": 23386,
+   "their_avg": 0.46,
+   "ask_now": 0.45,
+   "slug": "mlb-phi-atl-2026-10-01",
+   "asset": "67690976604231350231537233530354942785262628581415975219270089374965903597309",
+   "at": 1790900871.52174,
+   "result": "loss"
+  },
+  {
+   "title": "Spread: Steelers (-4.5)",
+   "outcome": "Steelers",
+   "traders": [
+    "HomeRunHazard",
+    "justaluckydude"
+   ],
+   "n": 2,
+   "usd": 3644,
+   "their_avg": 0.6,
+   "ask_now": 0.63,
+   "slug": "nfl-pit-cle-2026-10-02",
+   "asset": "21027235329520016493625264296373633462010606114253526327019624077460150315575",
+   "at": 1790902026.5884206,
+   "result": null
+  },
+  {
+   "title": "Steelers vs. Browns: O/U 36.5",
+   "outcome": "Over",
+   "traders": [
+    "0x9b11…5375",
+    "HomeRunHazard"
+   ],
+   "n": 2,
+   "usd": 2143,
+   "their_avg": 0.54,
+   "ask_now": 0.51,
+   "slug": "nfl-pit-cle-2026-10-02",
+   "asset": "98705160631490956295493125491774320340617856760979250513062886458185732349722",
+   "at": 1790902563.0134351,
+   "result": "win"
+  },
+  {
+   "title": "Spread: Steelers (-2.5)",
+   "outcome": "Steelers",
+   "traders": [
+    "HomeRunHazard",
+    "justaluckydude"
+   ],
+   "n": 2,
+   "usd": 4259,
+   "their_avg": 0.64,
+   "ask_now": 0.57,
+   "slug": "nfl-pit-cle-2026-10-02",
+   "asset": "39584015673855970498850998504745832066536096292113116106409728352706918296387",
+   "at": 1790902946.4147105,
+   "result": null
+  },
+  {
+   "title": "North Texas vs. Tulsa",
+   "outcome": "North Texas",
+   "traders": [
+    "0xb4F9…c9A7",
+    "HomeRunHazard",
+    "UpTheBlues"
+   ],
+   "n": 3,
+   "usd": 11170,
+   "their_avg": 0.58,
+   "ask_now": 0.62,
+   "slug": "cfb-ntx-tulsa-2026-10-01",
+   "asset": "87387897391363619750667516417466027678893018173824900355333033499345989561415",
+   "at": 1790903980.7821198,
+   "result": "win"
+  },
+  {
+   "title": "Steelers vs. Browns: O/U 44.5",
+   "outcome": "Over",
+   "traders": [
+    "HomeRunHazard",
+    "primm"
+   ],
+   "n": 2,
+   "usd": 13009,
+   "their_avg": 0.57,
+   "ask_now": 0.56,
+   "slug": "nfl-pit-cle-2026-10-02",
+   "asset": "14322624030813769035814175503452941686198292554339592692780356424336731602839",
+   "at": 1790904226.6253316,
+   "result": "win"
+  },
+  {
+   "title": "North Texas vs. Tulsa",
+   "outcome": "Tulsa",
+   "traders": [
+    "HomeRunHazard",
+    "justaluckydude"
+   ],
+   "n": 2,
+   "usd": 3979,
+   "their_avg": 0.4,
+   "ask_now": 0.36,
+   "slug": "cfb-ntx-tulsa-2026-10-01",
+   "asset": "31103053109568032567218454961206603367917736697436271258886344304885790332787",
+   "at": 1790904726.2424047,
+   "result": null
+  },
+  {
+   "title": "Steelers vs. Browns: O/U 46.5",
+   "outcome": "Under",
+   "traders": [
+    "0x9b11…5375",
+    "HomeRunHazard"
+   ],
+   "n": 2,
+   "usd": 8059,
+   "their_avg": 0.46,
+   "ask_now": 0.46,
+   "slug": "nfl-pit-cle-2026-10-02",
+   "asset": "64885357507864860252814382771999804478122823531629301725669823458656894803439",
+   "at": 1790904819.896071,
+   "result": null
+  },
+  {
+   "title": "Spread: Browns (-9.5)",
+   "outcome": "Steelers",
+   "traders": [
+    "HomeRunHazard",
+    "justaluckydude"
+   ],
+   "n": 2,
+   "usd": 9511,
+   "their_avg": 0.58,
+   "ask_now": 0.61,
+   "slug": "nfl-pit-cle-2026-10-02",
+   "asset": "32148263174148335355900532132322442140457304956371096404000344024094552284586",
+   "at": 1790906330.7330978,
+   "result": "win"
+  },
+  {
+   "title": "Spread: Browns (-9.5)",
+   "outcome": "Browns",
+   "traders": [
+    "HomeRunHazard",
+    "justaluckydude"
+   ],
+   "n": 2,
+   "usd": 4185,
+   "their_avg": 0.39,
+   "ask_now": 0.4,
+   "slug": "nfl-pit-cle-2026-10-02",
+   "asset": "83611021392890707135882207801133524253484979472482194834268934010278685332382",
+   "at": 1790906330.7330978,
+   "result": null
+  },
+  {
+   "title": "Spread: Browns (-6.5)",
+   "outcome": "Steelers",
+   "traders": [
+    "justaluckydude",
+    "primm"
+   ],
+   "n": 2,
+   "usd": 3117,
+   "their_avg": 0.47,
+   "ask_now": 0.34,
+   "slug": "nfl-pit-cle-2026-10-02",
+   "asset": "57861578337663168459020383481900775655034135413267157262650336664195830498106",
+   "at": 1790908747.6907747,
+   "result": "win"
+  },
+  {
+   "title": "Spread: Tulsa (-2.5)",
+   "outcome": "North Texas",
+   "traders": [
+    "HomeRunHazard",
+    "justaluckydude"
+   ],
+   "n": 2,
+   "usd": 4914,
+   "their_avg": 0.51,
+   "ask_now": 0.53,
+   "slug": "cfb-ntx-tulsa-2026-10-01",
+   "asset": "84613926135855145788868406661209181680142701009381376275413458516834437414591",
+   "at": 1790908747.6907747,
+   "result": null
+  },
+  {
+   "title": "Jingshan: Elias Ymer vs Federico Cina",
+   "outcome": "Federico Cina",
+   "traders": [
+    "HomeRunHazard",
+    "UpTheBlues"
+   ],
+   "n": 2,
+   "usd": 4371,
+   "their_avg": 0.46,
+   "ask_now": 0.46,
+   "slug": "atp-ymer-cina-2026-10-01",
+   "asset": "12029474699689557589698804101988763171846784656608167542795547893509454124181",
+   "at": 1790913033.6760123,
+   "result": "win"
+  },
+  {
+   "title": "China Open: Yue Yuan vs Mirra Andreeva",
+   "outcome": "Yue Yuan",
+   "traders": [
+    "HomeRunHazard",
+    "UpTheBlues"
+   ],
+   "n": 2,
+   "usd": 2829,
+   "their_avg": 0.36,
+   "ask_now": 0.36,
+   "slug": "wta-yuan-andreev-2026-10-01",
+   "asset": "81490598426133092153387968150099587007944867718653290582159383479443683961045",
+   "at": 1790913800.4653575,
+   "result": "loss"
+  },
+  {
+   "title": "China Open: Dayana Yastremska vs Maja Chwalinska",
+   "outcome": "Dayana Yastremska",
+   "traders": [
+    "HomeRunHazard",
+    "UpTheBlues"
+   ],
+   "n": 2,
+   "usd": 2350,
+   "their_avg": 0.62,
+   "ask_now": 0.65,
+   "slug": "wta-yastrem-chwalin-2026-10-01",
+   "asset": "78920500974668057368147992391476679525178412693851572536689184347981365362384",
+   "at": 1790916584.4374652,
+   "result": "win"
+  },
+  {
+   "title": "Columbus: Abedallah Shelbayh vs Aidan Mayo",
+   "outcome": "Aidan Mayo",
+   "traders": [
+    "HomeRunHazard",
+    "UpTheBlues"
+   ],
+   "n": 2,
+   "usd": 9603,
+   "their_avg": 0.49,
+   "ask_now": 0.45,
+   "slug": "atp-shelbay-mayo-2026-10-02",
+   "asset": "75272393750969918877426151287371580000704978272833787960326245520522115275390",
+   "at": 1790962895.8910866,
+   "result": null
+  },
+  {
+   "title": "Adana: Antonia Ruzic vs Teodora Kostovic",
+   "outcome": "Antonia Ruzic",
+   "traders": [
+    "HomeRunHazard",
+    "UpTheBlues"
+   ],
+   "n": 2,
+   "usd": 4917,
+   "their_avg": 0.59,
+   "ask_now": 0.58,
+   "slug": "wta-ruzic-kostovi-2026-10-02",
+   "asset": "13727004295325200374514926846280705748021378236110538621461254753564033232696",
+   "at": 1790966194.9351192,
+   "result": "win"
+  },
+  {
+   "title": "Will Sweden win on 2026-10-02?",
+   "outcome": "No",
+   "traders": [
+    "GoalLineGhost",
+    "UpTheBlues"
+   ],
+   "n": 2,
+   "usd": 2725,
+   "their_avg": 0.62,
+   "ask_now": 0.62,
+   "slug": "unl-bih-swe-2026-10-02",
+   "asset": "87821766028609410613769024545132540520244233598636556754137507916307285965736",
+   "at": 1790967207.0444236,
+   "result": "win"
+  },
+  {
+   "title": "Will Real Oviedo win on 2026-10-02?",
+   "outcome": "Yes",
+   "traders": [
+    "GoalLineGhost",
+    "UpTheBlues"
+   ],
+   "n": 2,
+   "usd": 2701,
+   "their_avg": 0.55,
+   "ask_now": 0.56,
+   "slug": "es2-eld-ovi-2026-10-02",
+   "asset": "61127649711091683722429274904298699579453811822230573291657017272642288569989",
+   "at": 1790967207.0444236,
+   "result": "loss"
+  },
+  {
+   "title": "Will Hungary win on 2026-10-02?",
+   "outcome": "Yes",
+   "traders": [
+    "GoalLineGhost",
+    "UpTheBlues"
+   ],
+   "n": 2,
+   "usd": 2946,
+   "their_avg": 0.42,
+   "ask_now": 0.44,
+   "slug": "unl-hun-geo-2026-10-02",
+   "asset": "57970849578847835557396675441341822936375793544493091448098497156537075548915",
+   "at": 1790967801.54114,
+   "result": "win"
+  },
+  {
+   "title": "Will France win on 2026-10-02?",
+   "outcome": "No",
+   "traders": [
+    "GoalLineGhost",
+    "UpTheBlues",
+    "sbsigner"
+   ],
+   "n": 3,
+   "usd": 3150,
+   "their_avg": 0.36,
+   "ask_now": 0.39,
+   "slug": "unl-fra-ita-2026-10-02",
+   "asset": "49544405543333031354294253157724216741756235619113562702176166686871464338310",
+   "at": 1790968725.624634,
+   "result": "win"
+  },
+  {
+   "title": "Poland vs. Romania: O/U 2.5",
+   "outcome": "Under",
+   "traders": [
+    "GoalLineGhost",
+    "omnibus-076daa"
+   ],
+   "n": 2,
+   "usd": 4205,
+   "their_avg": 0.45,
+   "ask_now": 0.3,
+   "slug": "unl-pol-rom-2026-10-02-more-markets",
+   "asset": "82079777141546638317217826828709397138800030985987300757504275503745884529308",
+   "at": 1790968725.624634,
+   "result": "loss"
+  },
+  {
+   "title": "Pittsburgh vs. Virginia Tech",
+   "outcome": "Virginia Tech",
+   "traders": [
+    "HomeRunHazard",
+    "justaluckydude"
+   ],
+   "n": 2,
+   "usd": 5918,
+   "their_avg": 0.47,
+   "ask_now": 0.48,
+   "slug": "cfb-pitt-vtech-2026-10-02",
+   "asset": "46836206381679876639183924639779072303435836778122333705531837377152739922333",
+   "at": 1790991498.9884057,
+   "result": null
+  },
+  {
+   "title": "Dallas Wings vs. Golden State Valkyries",
+   "outcome": "Dallas Wings",
+   "traders": [
+    "mooseborzoii",
+    "omnibus-076daa"
+   ],
+   "n": 2,
+   "usd": 7856,
+   "their_avg": 0.39,
+   "ask_now": 0.37,
+   "slug": "wnba-dal-gsv-2026-10-02",
+   "asset": "88798964875804409216316124940683776768399792907049164311382275881183211765403",
+   "at": 1790991802.0044403,
+   "result": null
+  }
+ ]
+}

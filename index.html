@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Closer AI | Live prediction-market bot stats</title>
+<meta name="description" content="Live, read-only stats for my prediction-market bots on Kalshi and Polymarket, plus a public dashboard of top Polymarket sports traders.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07090d;--panel:#0f141c;--line:#1c2430;--text:#e8edf4;--mute:#8a96a8;--green:#22d38a;--blue:#3b82f6;--gold:#f5b82e}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+.logo{font-weight:800;font-size:22px;letter-spacing:-.5px}.logo span{color:var(--green)}
+.btn{display:inline-block;background:var(--green);color:#04120b;font-weight:700;padding:12px 22px;border-radius:10px;border:0;cursor:pointer;font-size:15px}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.hero{padding:70px 0 60px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.pill{display:inline-block;font-size:13px;color:var(--green);border:1px solid #1d4d38;background:#0b1f17;padding:6px 12px;border-radius:999px;margin-bottom:20px}
+h1{font-size:54px;line-height:1.05;letter-spacing:-1.5px;font-weight:800;margin-bottom:20px}
+h1 em{font-style:normal;color:var(--green)}
+.lead{font-size:19px;color:var(--mute);max-width:540px;margin-bottom:30px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+.live .row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.live .row:last-child{border:0}
+.tag{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px}
+.win{background:#0b2a1d;color:var(--green)}.watch{background:#2a220b;color:var(--gold)}
+.bar{height:6px;background:#1a212c;border-radius:9px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:var(--green)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:10px 0 80px}
+.stat b{display:block;font-size:34px;font-weight:800;letter-spacing:-1px}.stat span{color:var(--mute);font-size:14px}
+section h2{font-size:36px;letter-spacing:-1px;margin-bottom:12px}
+section .sub{color:var(--mute);margin-bottom:34px;max-width:620px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:90px}
+.step{font-size:13px;color:var(--green);font-weight:700;margin-bottom:10px}
+.card h3{font-size:19px;margin-bottom:8px}.card p{color:var(--mute);font-size:15px}
+.rules li{list-style:none;padding:10px 0 10px 30px;position:relative;color:var(--mute);border-bottom:1px solid var(--line)}
+.rules li:before{content:"✓";position:absolute;left:4px;color:var(--green);font-weight:800}
+.rules li b{color:var(--text)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:90px}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:90px}
+.plan .price{font-size:32px;font-weight:800;margin:8px 0}.plan .price small{font-size:14px;color:var(--mute);font-weight:500}
+.plan.hot{border-color:var(--green);box-shadow:0 0 0 1px var(--green) inset}
+.plan ul{margin:14px 0 20px}.plan li{list-style:none;color:var(--mute);font-size:14px;padding:5px 0}
+.wait{text-align:center;padding:60px 30px;margin-bottom:60px;background:linear-gradient(180deg,#0d1a14,#0f141c)}
+.wait form{display:flex;gap:10px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.wait input{background:#0a0e14;border:1px solid var(--line);color:var(--text);padding:13px 16px;border-radius:10px;width:320px;font-size:15px}
+.err{display:none;color:#f0506e;margin-top:14px;font-weight:600}
+.ok{display:none;color:var(--green);margin-top:14px;font-weight:600}
+footer{border-top:1px solid var(--line);padding:30px 0 50px;color:var(--mute);font-size:12.5px}
+@media(max-width:560px){nav .hide-sm{display:none}.navcta{flex-wrap:nowrap;gap:8px}nav .btn{padding:9px 13px;font-size:14px}}
+@media(max-width:400px){.hide-xs{display:none}}
+@media(max-width:860px){.hero,.two{grid-template-columns:1fr}.grid3,.plans{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}h1{font-size:40px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <div class="logo">Closer<span>AI</span></div>
+  <div class="cta navcta"><a class="btn ghost" href="dashboard.html">Live<span class="hide-xs"> dashboard</span></a><a class="btn ghost hide-sm" href="#how">How it works</a><a class="btn" href="bots.html">My bots</a></div>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="pill">Read-only stats · Kalshi + Polymarket</div>
+    <h1>Bots that bet only when the game is <em>basically over.</em></h1>
+    <p class="lead">Closer AI is my set of small trading bots. They watch live matches, check the score against the market price, and trade only under strict rules. Every result is published here, including the losses.</p>
+    <div class="cta"><a class="btn" href="bots.html">See my bots' results</a><a class="btn ghost" href="#record">Track record</a><a class="btn ghost" href="dashboard.html">Watch top traders live</a></div>
+  </div>
+  <div class="card live">
+    <div style="display:flex;justify-content:space-between;margin-bottom:6px"><b>Live scanner</b><span style="color:var(--mute);font-size:13px">every 5 min</span></div>
+    <div class="row"><div>Tennis · Final set 5–2<div class="bar"><i style="width:96%"></i></div></div><span class="tag win">96¢ · BUY</span></div>
+    <div class="row"><div>Tennis · Final set 5–3<div class="bar"><i style="width:95%"></i></div></div><span class="tag win">95¢ · BUY</span></div>
+    <div class="row"><div>Tennis · 2nd set 3–3<div class="bar"><i style="width:70%"></i></div></div><span class="tag watch">70¢ · WAIT</span></div>
+    <div class="row"><div>Tennis · Tiebreak<div class="bar"><i style="width:55%"></i></div></div><span class="tag watch">SKIP</span></div>
+    <p style="color:var(--mute);font-size:12px;margin-top:10px">Example screen for illustration.</p>
+  </div>
+</div>
+
+<div id="record" class="stats" style="margin-bottom:12px">
+  <div class="card stat"><b id="h-rate">–</b><span>win rate on settled bets</span></div>
+  <div class="card stat"><b id="h-n">–</b><span>bets settled (Kalshi + Polymarket)</span></div>
+  <div class="card stat"><b id="h-wl">–</b><span>wins and losses</span></div>
+  <div class="card stat"><b id="h-roi">–</b><span>return on money staked</span></div>
+</div>
+<p id="h-note" style="color:var(--mute);font-size:12.5px;margin:0 0 80px">All strategies combined, from the bots' own ledgers. <a href="bots.html" style="color:var(--green)">Breakdown by strategy →</a></p>
+
+<section id="how">
+  <h2>How it works</h2>
+  <p class="sub">The strategy is simple: stay out while the game is uncertain, and step in once it's almost decided.</p>
+  <div class="grid3">
+    <div class="card"><div class="step">STEP 1</div><h3>Watch everything live</h3><p>The bot tracks live scores from several data sources and every matching market, around the clock.</p></div>
+    <div class="card"><div class="step">STEP 2</div><h3>Wait for the finish</h3><p>It only acts in the last minutes of a match, when the leader is a set up and clearly ahead in the deciding set.</p></div>
+    <div class="card"><div class="step">STEP 3</div><h3>Trade with strict limits</h3><p>It uses small, fixed bet sizes, caps how much is at risk, and pauses automatically after a loss. Every trade is logged with the live score.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="two">
+    <div class="card">
+      <h2 style="font-size:26px">The bot's rules</h2>
+      <ul class="rules">
+        <li><b>Price of 94¢ or higher</b>, so the market has to agree it's nearly over</li>
+        <li><b>Two live sources must agree</b> on the score before any trade</li>
+        <li><b>No tiebreaks, injuries or suspensions</b>. When in doubt, it skips</li>
+        <li><b>Fixed size per bet</b>, with a daily cap</li>
+        <li><b>Automatic pause</b> after a single losing bet</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2 style="font-size:26px">What's published here</h2>
+      <ul class="rules">
+        <li><b>Every settled bet</b>, wins and losses, per strategy</li>
+        <li><b>Win rate and ROI</b> after fees, updated automatically</li>
+        <li><b>Live top-trader dashboard</b> from Polymarket's public data</li>
+        <li><b>Read-only.</b> No sign-ups, no payments, no picks for sale</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p style="margin-bottom:10px"><a href="dashboard.html" style="color:var(--green)">Live dashboard</a> · <a href="results.html" style="color:var(--green)">Alert results</a> · <a href="bots.html" style="color:var(--green)">My bots</a></p>
+  <p><b>Closer AI</b> © 2026. A personal, read-only stats page showing bets placed on the owner's own Kalshi and Polymarket accounts. It does not sell picks or alerts, take payments or deposits, or manage anyone else's account or money. Records are unaudited and past results don't predict future results. Prediction market trading involves risk and you can lose money. Availability depends on your state's laws. Nothing here is financial or betting advice.</p>
+</footer>
+</div>
+<script>
+fetch('data/bots.json',{cache:'no-cache'}).then(function(r){return r.json()}).then(function(d){
+  var t=d.totals||{};function $(i){return document.getElementById(i)}
+  if(!t.settled){$('h-note').textContent='No settled bets in the ledger yet.';return}
+  $('h-rate').textContent=Math.round(100*t.wins/t.settled)+'%';$('h-n').textContent=t.settled;
+  $('h-wl').textContent=t.wins+'–'+t.losses;$('h-roi').textContent=(t.roi_pct>0?'+':'')+t.roi_pct.toFixed(1)+'%';
+}).catch(function(){document.getElementById('h-note').textContent='Bot stats are unavailable right now.'});
+</script>
+</body>
+</html>

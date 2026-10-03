@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07090d">
+<title>Live dashboard | Closer AI</title>
+<meta name="description" content="Live Polymarket sports dashboard: top traders, their latest buys, smart-money agreement and price charts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="logo" href="./">Closer<span>AI</span></a>
+  <nav class="nav"><a href="dashboard.html" class="on">Dashboard</a><a href="results.html">Results</a><a href="bots.html">My bots</a><a href="./" class="hide-sm">Home</a></nav>
+  <div class="live"><i class="dot load" id="dot"></i><span class="txt" id="live-txt">Loading…</span><span id="countdown" class="mute"></span></div>
+</div></header>
+
+<main class="wrap">
+  <div class="bar">
+    <h1>Polymarket sports · live</h1>
+    <div class="seg" id="period"><button data-p="MONTH" class="on">Month</button><button data-p="WEEK">Week</button></div>
+    <button class="btn ghost" id="refresh" title="Refresh now">↻ Refresh</button>
+    <button class="btn" id="xlsx">⬇ Excel</button>
+  </div>
+
+  <nav class="mobnav"><a href="#agree">Smart money</a><a href="#feed">Live feed</a><a href="#leaders">Leaderboard</a><a href="results.html">Results</a><a href="bots.html">My bots</a></nav>
+
+  <div class="stats">
+    <div class="stat"><b id="s-wallets">–</b><span>top wallets tracked</span></div>
+    <div class="stat"><b id="s-buys">–</b><span>buys in the last hour</span></div>
+    <div class="stat"><b id="s-usd">–</b><span>bought in the last hour</span></div>
+    <div class="stat"><b id="s-agree">–</b><span>smart money agrees (30m)</span></div>
+  </div>
+
+  <section class="card" id="agree" style="margin-bottom:16px;scroll-margin-top:110px">
+    <div class="card-h"><h2>🤝 Smart money agrees <span class="sub">2+ top traders bought the same outcome in the last 30 min</span></h2>
+      <button class="btn ghost sm" id="csv-agree">Download CSV</button></div>
+    <div class="agrees" id="agrees"><div class="empty">Loading…</div></div>
+  </section>
+
+  <div class="grid">
+    <section class="card" id="feed" style="scroll-margin-top:110px">
+      <div class="card-h"><h2>⚡ Live trade feed <span class="sub" id="feed-sub">BUYs from the top 30 wallets</span></h2>
+        <button class="btn ghost sm" id="csv-feed">Download CSV</button></div>
+      <div class="chips" id="filters">
+        <button class="chip on" data-f="all">All</button>
+        <button class="chip" data-f="mid">30–70¢</button>
+        <button class="chip" data-f="agree">Smart money agrees</button>
+        <button class="chip" data-f="c100">$100+</button>
+        <button class="chip" data-f="big">$1K+</button>
+        <button class="chip" data-f="hour">Last hour</button>
+        <input class="search" id="q" type="search" placeholder="Search team, market, trader" autocomplete="off">
+      </div>
+      <div class="err-box" id="feed-err"></div>
+      <div class="tw scroll"><table class="cards" id="feed-table">
+        <thead><tr><th>Time</th><th>Trader</th><th>Market</th><th>Outcome</th><th class="num">Price</th><th class="num">Size</th></tr></thead>
+        <tbody id="feed-body"><tr><td colspan="6" class="mute">Loading live trades…</td></tr></tbody>
+      </table></div>
+      <div class="legend"><span><i style="background:var(--gold)"></i>Priced 30–70¢</span><span><i style="background:var(--green)"></i>Smart money agrees</span><span>Fills of one order within 60s are merged</span><span>Tap a row for the price chart</span></div>
+    </section>
+
+    <section class="card" id="leaders" style="scroll-margin-top:110px">
+      <div class="card-h"><h2>🏆 Top sports traders <span class="sub" id="lb-sub">by P&amp;L · month</span></h2>
+        <button class="btn ghost sm" id="csv-lb">Download CSV</button></div>
+      <div class="err-box" id="lb-err"></div>
+      <div class="tw scroll"><table id="lb-table">
+        <thead><tr><th>#</th><th>Trader</th><th class="num">P&amp;L</th><th class="num">Volume</th></tr></thead>
+        <tbody id="lb-body"><tr><td colspan="4" class="mute">Loading…</td></tr></tbody>
+      </table></div>
+    </section>
+  </div>
+<footer>
+  <p>Market data: Polymarket public read-only APIs (leaderboard, trades, CLOB price history), fetched directly by your browser. Closer AI is not affiliated with Polymarket. Showing what top traders bought is not a recommendation to copy them. Times are shown in your local time zone.</p>
+  <p><b>Closer AI</b> © 2026. A personal, read-only stats page showing bets placed on the owner's own Kalshi and Polymarket accounts. It does not sell picks or alerts, take payments or deposits, or manage anyone else's account or money. Records are unaudited and past results don't predict future results. Prediction market trading involves risk and you can lose money. Availability depends on your state's laws. Nothing here is financial or betting advice.</p>
+</footer>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+<script src="assets/pm.js" defer></script>
+<script src="assets/common.js" defer></script>
+<script src="assets/dashboard.js" defer></script>
+</body>
+</html>
