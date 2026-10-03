@@ -1,31 +1,31 @@
 {
- "generated_at_utc": "2026-10-03T04:10Z",
+ "generated_at_utc": "2026-10-03T14:02Z",
  "show_dollars": true,
  "totals": {
-  "settled": 112,
+  "settled": 113,
   "wins": 68,
-  "losses": 44,
+  "losses": 45,
   "open": 35,
-  "staked_usd": 430.33,
-  "pnl_usd": 36.28,
-  "roi_pct": 8.4
+  "staked_usd": 455.29,
+  "pnl_usd": 24.84,
+  "roi_pct": 5.5
  },
  "strategies": [
   {
    "key": "tennis_closer",
    "name": "Tennis closer",
    "description": "Buys the leader at 94–98¢ late in a match once two live score sources agree.",
-   "settled": 3,
+   "settled": 4,
    "wins": 2,
-   "losses": 1,
-   "closed_early": 1,
+   "losses": 2,
+   "closed_early": 2,
    "open": 0,
-   "win_rate_pct": 66.7,
-   "roi_pct": -1.7,
+   "win_rate_pct": 50.0,
+   "roi_pct": -10.6,
    "avg_price": null,
-   "last_bet_utc": "2026-10-02T21:25Z",
-   "staked_usd": 98.48,
-   "pnl_usd": -1.66
+   "last_bet_utc": "2026-10-03T04:01Z",
+   "staked_usd": 123.44,
+   "pnl_usd": -13.1
   },
   {
    "key": "tennis_micro",
@@ -141,6 +141,14 @@
   }
  ],
  "recent": [
+  {
+   "strategy": "tennis_closer",
+   "strategy_name": "Tennis closer",
+   "at_utc": "2026-10-03T04:01Z",
+   "status": "closed_early",
+   "pnl_usd": -11.44,
+   "detail": "aggregate"
+  },
   {
    "strategy": "wallet_sweep",
    "strategy_name": "Smart-wallet sweeps",
@@ -1030,37 +1038,23 @@
    "pick": null,
    "strategy_name": "Smart-wallet sweeps",
    "roi_pct": 117.4
-  },
-  {
-   "strategy": "wallet_sweep",
-   "at_utc": "2026-10-02T14:55Z",
-   "label": "Vítkovice vs. Karlovy Vary",
-   "side": "YES",
-   "price": 0.53,
-   "contracts": 1.0,
-   "status": "loss",
-   "cost_usd": 0.55,
-   "pnl_usd": -0.55,
-   "pick": "Vítkovice",
-   "strategy_name": "Smart-wallet sweeps",
-   "roi_pct": -100.0
   }
  ],
  "sources": [
   {
    "name": "1-contract bets",
    "rows_used": 128,
-   "updated_utc": "2026-10-03T04:07Z"
+   "updated_utc": "2026-10-03T05:51Z"
   },
   {
    "name": "tennis closer",
-   "rows_used": 3,
-   "updated_utc": "2026-10-03T04:04Z"
+   "rows_used": 4,
+   "updated_utc": "2026-10-03T05:51Z"
   },
   {
    "name": "copy bets",
    "rows_used": 16,
-   "updated_utc": "2026-10-03T04:08Z"
+   "updated_utc": "2026-10-03T05:09Z"
   }
  ],
  "notes": [
