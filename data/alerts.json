@@ -1,5 +1,5 @@
 {
- "snapshot_at": 1791040825,
+ "snapshot_at": 1791045684,
  "source": "smart-money alert log",
  "log": [
   {
@@ -645,6 +645,54 @@
    "asset": "81181285828615075315893483095197828358499303726797849755320866687297732132339",
    "at": 1791002911.214945,
    "result": "loss"
+  },
+  {
+   "title": "Croatia vs. England: O/U 3.5",
+   "outcome": "Under",
+   "traders": [
+    "GoalLineGhost",
+    "omnibus-076daa"
+   ],
+   "n": 2,
+   "usd": 7158,
+   "their_avg": 0.49,
+   "ask_now": 0.3,
+   "slug": "unl-hrv-eng-2026-10-03-more-markets",
+   "asset": "68215281351838917155281931600598700148831023449621983276190201305900961458304",
+   "at": 1791044311.4064405,
+   "result": null
+  },
+  {
+   "title": "Will Iceland win on 2026-10-03?",
+   "outcome": "No",
+   "traders": [
+    "GoalLineGhost",
+    "omnibus-076daa"
+   ],
+   "n": 2,
+   "usd": 2215,
+   "their_avg": 0.38,
+   "ask_now": 0.41,
+   "slug": "unl-isl-bul-2026-10-03",
+   "asset": "46244159342163523779679995858234948510844177030680409877854452060064097891810",
+   "at": 1791044311.4064405,
+   "result": null
+  },
+  {
+   "title": "Spread: Alabama (-5.5)",
+   "outcome": "Mississippi State",
+   "traders": [
+    "0xb4F9…c9A7",
+    "ic4cream"
+   ],
+   "n": 2,
+   "usd": 15041,
+   "their_avg": 0.5,
+   "ask_now": 0.32,
+   "slug": "cfb-ala-mspst-2026-10-03",
+   "asset": "112462019658310688907819144213730272337712632048134482527978774192012406556882",
+   "at": 1791044311.4064405,
+   "result": null
   }
  ]
 }
