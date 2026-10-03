@@ -1,5 +1,5 @@
 {
- "generated_at_utc": "2026-10-03T03:08Z",
+ "generated_at_utc": "2026-10-03T03:13Z",
  "show_dollars": true,
  "totals": {
   "settled": 104,
@@ -22,7 +22,7 @@
    "open": 0,
    "win_rate_pct": 50.0,
    "roi_pct": -3.3,
-   "avg_price": 0.975,
+   "avg_price": null,
    "last_bet_utc": "2026-10-02T04:46Z",
    "staked_usd": 74.23,
    "pnl_usd": -2.46
@@ -38,7 +38,7 @@
    "open": 1,
    "win_rate_pct": 66.7,
    "roi_pct": -13.5,
-   "avg_price": 0.768,
+   "avg_price": 0.72,
    "last_bet_utc": "2026-10-02T20:42Z",
    "staked_usd": 9.25,
    "pnl_usd": -1.25
@@ -54,7 +54,7 @@
    "open": 34,
    "win_rate_pct": 59.7,
    "roi_pct": 1.3,
-   "avg_price": 0.575,
+   "avg_price": 0.565,
    "last_bet_utc": "2026-10-03T02:24Z",
    "staked_usd": 42.45,
    "pnl_usd": 0.55
@@ -109,8 +109,8 @@
   },
   {
    "key": "wallet_copy",
-   "name": "Wallet copies (Kalshi)",
-   "description": "Kalshi copies of tracked Polymarket wallets, small fixed size.",
+   "name": "Wallet copies",
+   "description": "Copies of tracked top sports wallets, small fixed size.",
    "settled": 14,
    "wins": 9,
    "losses": 5,
@@ -118,7 +118,7 @@
    "open": 0,
    "win_rate_pct": 64.3,
    "roi_pct": -14.8,
-   "avg_price": 0.52,
+   "avg_price": null,
    "last_bet_utc": "2026-10-01T14:32Z",
    "staked_usd": 223.32,
    "pnl_usd": -33.03
@@ -143,127 +143,70 @@
  "recent": [
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-03T02:24Z",
-   "label": "Donna Vekic vs Lin Zhu",
-   "side": "YES",
-   "price": 0.37,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.37,
    "pnl_usd": null,
-   "pick": "Lin Zhu",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "smart_alert",
-   "venue": "kalshi",
+   "strategy_name": "Smart-money alerts",
    "at_utc": "2026-10-03T01:44Z",
-   "label": "Dallas game",
-   "side": "YES",
-   "price": 0.3,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.3,
    "pnl_usd": null,
-   "pick": "Dallas",
-   "roi_pct": null,
-   "strategy_name": "Smart-money alerts"
+   "detail": "aggregate"
   },
   {
    "strategy": "data_micro",
-   "venue": "kalshi",
+   "strategy_name": "Sports DATA picks",
    "at_utc": "2026-10-03T01:31Z",
-   "label": "Fortaleza vs Nautico",
-   "side": "YES",
-   "price": 0.55,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.55,
    "pnl_usd": null,
-   "pick": "Fortaleza",
-   "roi_pct": null,
-   "strategy_name": "Sports DATA picks"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-03T01:21Z",
-   "label": "Luminosity vs Nemiga (BO3) - Stake Ranked Episode 4 Playoffs",
-   "side": "YES",
-   "price": 0.46,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.46,
    "pnl_usd": null,
-   "pick": "Luminosity",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-03T00:43Z",
-   "label": "West Virginia vs. Iowa State",
-   "side": "YES",
-   "price": 0.41,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.41,
    "pnl_usd": null,
-   "pick": "West Virginia",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-03T00:43Z",
-   "label": "FURIA vs BetBoom Team (BO3) - ESL Pro League Group Stage",
-   "side": "YES",
-   "price": 0.66,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.66,
    "pnl_usd": null,
-   "pick": "FURIA",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-03T00:42Z",
-   "label": "Katie Volynets vs Elise Mertens",
-   "side": "YES",
-   "price": 0.54,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.54,
    "pnl_usd": null,
-   "pick": "Elise Mertens",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-03T00:42Z",
-   "label": "Legacy vs PARIVISION (BO3) - ESL Pro League Group Stage",
-   "side": "YES",
-   "price": 0.57,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.57,
    "pnl_usd": null,
-   "pick": "PARIVISION",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-03T00:42Z",
    "label": "HUS Agadir vs. Maghreb AS de Fès",
    "side": "NO",
@@ -273,27 +216,19 @@
    "cost_usd": 0.67,
    "pnl_usd": null,
    "pick": null,
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": null
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-03T00:42Z",
-   "label": "Croatia vs. England",
-   "side": "NO",
-   "price": 0.46,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.46,
    "pnl_usd": null,
-   "pick": "England",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-03T00:02Z",
    "label": "CS Independiente Rivadavia vs. Gimnasia y Esgrima de La Plata",
    "side": "NO",
@@ -303,12 +238,11 @@
    "cost_usd": 0.6,
    "pnl_usd": 0.4,
    "pick": "CS Independiente Rivadavia",
-   "roi_pct": 66.7,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": 66.7
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T23:50Z",
    "label": "CD Marquense vs. Antigua GFC",
    "side": "YES",
@@ -318,12 +252,11 @@
    "cost_usd": 0.54,
    "pnl_usd": null,
    "pick": null,
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": null
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T23:50Z",
    "label": "Osaka Evessa vs. SeaHorses Mikawa",
    "side": "NO",
@@ -333,42 +266,27 @@
    "cost_usd": 0.95,
    "pnl_usd": null,
    "pick": "SeaHorses Mikawa",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": null
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T23:32Z",
-   "label": "Blues vs. Stars",
-   "side": "YES",
-   "price": 0.37,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.37,
    "pnl_usd": null,
-   "pick": "Blues",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T23:32Z",
-   "label": "Nino Ehrenschneider vs Ryuki Matsuda",
-   "side": "YES",
-   "price": 0.66,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.66,
    "pnl_usd": null,
-   "pick": "Nino Ehrenschneider",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T23:15Z",
    "label": "El Salvador vs. Jamaica",
    "side": "NO",
@@ -378,87 +296,51 @@
    "cost_usd": 0.74,
    "pnl_usd": null,
    "pick": null,
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": null
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T23:02Z",
-   "label": "Albacete Balompié vs. SD Eibar",
-   "side": "YES",
-   "price": 0.4,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.4,
    "pnl_usd": null,
-   "pick": "SD Eibar",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T22:50Z",
-   "label": "Penn State vs. Northwestern",
-   "side": "YES",
-   "price": 0.57,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.57,
    "pnl_usd": null,
-   "pick": "Penn State",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T22:50Z",
-   "label": "Denis Shapovalov vs Alejandro Tabilo",
-   "side": "YES",
-   "price": 0.44,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.44,
    "pnl_usd": null,
-   "pick": "Alejandro Tabilo",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T22:04Z",
-   "label": "São Bernardo FC vs. CR Brasil",
-   "side": "NO",
-   "price": 0.59,
-   "contracts": 1.0,
    "status": "win",
-   "cost_usd": 0.59,
    "pnl_usd": 0.41,
-   "pick": "CR Brasil",
-   "roi_pct": 69.5,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T22:04Z",
-   "label": "CSKA Moscow vs. HC Dynamo Moscow",
-   "side": "YES",
-   "price": 0.67,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.67,
    "pnl_usd": null,
-   "pick": "CSKA Moscow",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T21:52Z",
    "label": "CA Independiente vs. Instituto AC Córdoba",
    "side": "NO",
@@ -468,102 +350,59 @@
    "cost_usd": 0.66,
    "pnl_usd": 0.34,
    "pick": "CA Independiente",
-   "roi_pct": 51.5,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": 51.5
   },
   {
    "strategy": "data_micro",
-   "venue": "kalshi",
+   "strategy_name": "Sports DATA picks",
    "at_utc": "2026-10-02T21:43Z",
-   "label": "Pitt vs Virginia Tech",
-   "side": "YES",
-   "price": 0.54,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.54,
    "pnl_usd": null,
-   "pick": "VT",
-   "roi_pct": null,
-   "strategy_name": "Sports DATA picks"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T21:24Z",
-   "label": "Andrey Rublev vs Roman Safiullin",
-   "side": "YES",
-   "price": 0.58,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.58,
    "pnl_usd": null,
-   "pick": "Andrey Rublev",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T21:24Z",
-   "label": "Shopify Rebellion vs KT Rolster (BO1) - Demacia Cup Global Invitationa",
-   "side": "YES",
-   "price": 0.13,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.13,
    "pnl_usd": null,
-   "pick": "Shopify Rebellion",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T21:01Z",
-   "label": "PARIVISION vs Aurora (BO3) - BLAST Slam Seeding Matches",
-   "side": "YES",
-   "price": 0.83,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.83,
    "pnl_usd": null,
-   "pick": "PARIVISION",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T20:45Z",
-   "label": "São Paulo FC vs. Santos FC",
-   "side": "NO",
-   "price": 0.52,
-   "contracts": 1.0,
    "status": "win",
-   "cost_usd": 0.52,
    "pnl_usd": 0.48,
-   "pick": null,
-   "roi_pct": 92.3,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "tennis_micro",
-   "venue": "kalshi",
+   "strategy_name": "Tennis micro tests",
    "at_utc": "2026-10-02T20:42Z",
-   "label": "Gustavo Heide vs Lautaro Midon",
-   "side": "YES",
-   "price": 0.89,
-   "contracts": 1.0,
    "status": "win",
-   "cost_usd": 0.89,
    "pnl_usd": 0.11,
-   "pick": "Gustavo Heide",
-   "roi_pct": 12.4,
-   "strategy_name": "Tennis micro tests"
+   "detail": "aggregate"
   },
   {
    "strategy": "tennis_micro",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T20:42Z",
    "label": "Gustavo Heide vs Lautaro Midon",
    "side": "YES",
@@ -573,27 +412,19 @@
    "cost_usd": 0.91,
    "pnl_usd": 0.09,
    "pick": null,
-   "roi_pct": 9.9,
-   "strategy_name": "Tennis micro tests"
+   "strategy_name": "Tennis micro tests",
+   "roi_pct": 9.9
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T20:36Z",
-   "label": "Elena Rybakina vs Alina Charaeva",
-   "side": "YES",
-   "price": 0.95,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.95,
    "pnl_usd": null,
-   "pick": "Elena Rybakina",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T20:22Z",
    "label": "Martinique vs. Honduras",
    "side": "YES",
@@ -603,27 +434,19 @@
    "cost_usd": 0.52,
    "pnl_usd": -0.52,
    "pick": null,
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T20:22Z",
-   "label": "G2 Esports vs Team Liquid (BO3) - VCT Champions Group C",
-   "side": "YES",
-   "price": 0.48,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.48,
    "pnl_usd": null,
-   "pick": "Team Liquid",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "macro_research",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T20:18Z",
    "label": "Sept core CPI YoY >2.4%",
    "side": "NO",
@@ -633,27 +456,19 @@
    "cost_usd": 0.47,
    "pnl_usd": null,
    "pick": null,
-   "roi_pct": null,
-   "strategy_name": "Macro Research"
+   "strategy_name": "Macro Research",
+   "roi_pct": null
   },
   {
    "strategy": "macro_research",
-   "venue": "kalshi",
+   "strategy_name": "Macro Research",
    "at_utc": "2026-10-02T20:18Z",
-   "label": "Sept CPI MoM >0.5%",
-   "side": "NO",
-   "price": 0.41,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.41,
    "pnl_usd": null,
-   "pick": null,
-   "roi_pct": null,
-   "strategy_name": "Macro Research"
+   "detail": "aggregate"
   },
   {
    "strategy": "macro_research",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T20:18Z",
    "label": "Fed +25bp hike at Oct 28 FOMC",
    "side": "YES",
@@ -663,57 +478,35 @@
    "cost_usd": 0.18,
    "pnl_usd": null,
    "pick": null,
-   "roi_pct": null,
-   "strategy_name": "Macro Research"
+   "strategy_name": "Macro Research",
+   "roi_pct": null
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T19:32Z",
-   "label": "Spirit vs ShindeN (BO3) - ESL Pro League Group Stage",
-   "side": "YES",
-   "price": 0.95,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.95,
    "pnl_usd": null,
-   "pick": "Spirit",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "tennis_micro",
-   "venue": "kalshi",
+   "strategy_name": "Tennis micro tests",
    "at_utc": "2026-10-02T19:22Z",
-   "label": "Pedro Boscardin Dias vs Luis Miguel",
-   "side": "YES",
-   "price": 0.97,
-   "contracts": 1.0,
    "status": "win",
-   "cost_usd": 0.97,
    "pnl_usd": 0.03,
-   "pick": "Pedro Boscardin Dias",
-   "roi_pct": 3.1,
-   "strategy_name": "Tennis micro tests"
+   "detail": "aggregate"
   },
   {
    "strategy": "tennis_micro",
-   "venue": "kalshi",
+   "strategy_name": "Tennis micro tests",
    "at_utc": "2026-10-02T19:22Z",
-   "label": "Teodora Kostovic vs Antonia Ruzic",
-   "side": "YES",
-   "price": 0.77,
-   "contracts": 1.0,
    "status": "loss",
-   "cost_usd": 0.77,
    "pnl_usd": -0.77,
-   "pick": "Teodora Kostovic",
-   "roi_pct": -100.0,
-   "strategy_name": "Tennis micro tests"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T19:01Z",
    "label": "Team Vitality vs BNK FEARX (BO1) - Demacia Cup Global Invitational Gro",
    "side": "YES",
@@ -723,12 +516,11 @@
    "cost_usd": 0.32,
    "pnl_usd": null,
    "pick": "Team Vitality",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": null
   },
   {
    "strategy": "smart_alert",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T18:54Z",
    "label": "BIH-SWE",
    "side": "NO",
@@ -738,12 +530,11 @@
    "cost_usd": 0.63,
    "pnl_usd": 0.37,
    "pick": "Sweden",
-   "roi_pct": 58.7,
-   "strategy_name": "Smart-money alerts"
+   "strategy_name": "Smart-money alerts",
+   "roi_pct": 58.7
   },
   {
    "strategy": "smart_alert",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T18:54Z",
    "label": "Oviedo game",
    "side": "YES",
@@ -753,12 +544,11 @@
    "cost_usd": 0.57,
    "pnl_usd": -0.57,
    "pick": "Oviedo",
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-money alerts"
+   "strategy_name": "Smart-money alerts",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T18:38Z",
    "label": "France vs. Italy",
    "side": "NO",
@@ -768,27 +558,19 @@
    "cost_usd": 0.88,
    "pnl_usd": 0.12,
    "pick": "Italy",
-   "roi_pct": 13.6,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": 13.6
   },
   {
    "strategy": "tennis_micro",
-   "venue": "kalshi",
+   "strategy_name": "Tennis micro tests",
    "at_utc": "2026-10-02T18:24Z",
-   "label": "Henry Bernet vs Felix Balshaw",
-   "side": "YES",
-   "price": 0.93,
-   "contracts": 1.0,
    "status": "win",
-   "cost_usd": 0.93,
    "pnl_usd": 0.07,
-   "pick": "Henry Bernet",
-   "roi_pct": 7.5,
-   "strategy_name": "Tennis micro tests"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T18:05Z",
    "label": "Nemiga vs Alliance (BO3) - Stake Ranked Episode 4 Playoffs",
    "side": "NO",
@@ -798,12 +580,11 @@
    "cost_usd": 0.36,
    "pnl_usd": -0.36,
    "pick": "Alliance",
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T18:05Z",
    "label": "Sevilla FC vs. Aston Villa",
    "side": "NO",
@@ -813,12 +594,11 @@
    "cost_usd": 0.66,
    "pnl_usd": -0.66,
    "pick": null,
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T18:05Z",
    "label": "Poland vs. Romania",
    "side": "YES",
@@ -828,12 +608,11 @@
    "cost_usd": 0.24,
    "pnl_usd": -0.24,
    "pick": null,
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T17:48Z",
    "label": "Emerson Jones vs Alexandra Shubladze",
    "side": "NO",
@@ -843,12 +622,11 @@
    "cost_usd": 0.6,
    "pnl_usd": null,
    "pick": "Alexandra Shubladze",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": null
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T16:25Z",
    "label": "CD Eldense vs. Real Oviedo",
    "side": "NO",
@@ -858,12 +636,11 @@
    "cost_usd": 0.71,
    "pnl_usd": 0.29,
    "pick": "Real Oviedo",
-   "roi_pct": 40.8,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": 40.8
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T16:25Z",
    "label": "Isurus vs Procyon Gaming (BO3) - CCT South America Series 6 Playoffs",
    "side": "NO",
@@ -873,12 +650,11 @@
    "cost_usd": 0.53,
    "pnl_usd": 0.47,
    "pick": "Procyon Gaming",
-   "roi_pct": 88.7,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": 88.7
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T16:24Z",
    "label": "Bern vs. Geneve-Servette",
    "side": "YES",
@@ -888,27 +664,19 @@
    "cost_usd": 0.7,
    "pnl_usd": -0.7,
    "pick": "Bern",
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   },
   {
    "strategy": "tennis_micro",
-   "venue": "kalshi",
+   "strategy_name": "Tennis micro tests",
    "at_utc": "2026-10-02T16:19Z",
-   "label": "Mitchell Krueger vs Keegan Smith",
-   "side": "YES",
-   "price": 0.44,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.44,
    "pnl_usd": null,
-   "pick": "Mitchell Krueger",
-   "roi_pct": null,
-   "strategy_name": "Tennis micro tests"
+   "detail": "aggregate"
   },
   {
    "strategy": "tennis_micro",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T16:19Z",
    "label": "Mitchell Krueger vs Keegan Smith",
    "side": "YES",
@@ -918,27 +686,19 @@
    "cost_usd": 0.72,
    "pnl_usd": 0.28,
    "pick": null,
-   "roi_pct": 38.9,
-   "strategy_name": "Tennis micro tests"
+   "strategy_name": "Tennis micro tests",
+   "roi_pct": 38.9
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T16:08Z",
-   "label": "Dallas Wings vs. Golden State Valkyries",
-   "side": "YES",
-   "price": 0.76,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.76,
    "pnl_usd": null,
-   "pick": "Golden State Valkyries",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T15:51Z",
    "label": "Hungary vs. Georgia",
    "side": "YES",
@@ -948,12 +708,11 @@
    "cost_usd": 0.31,
    "pnl_usd": -0.31,
    "pick": null,
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T15:51Z",
    "label": "Ferro Carril Oeste vs. Deportivo Madryn",
    "side": "YES",
@@ -963,27 +722,19 @@
    "cost_usd": 0.55,
    "pnl_usd": -0.55,
    "pick": "Ferro Carril Oeste",
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T15:51Z",
-   "label": "Xinran Sun vs Cristina Bucsa",
-   "side": "YES",
-   "price": 0.7,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.7,
    "pnl_usd": null,
-   "pick": "Cristina Bucsa",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T15:51Z",
    "label": "Brisbane Bullets vs. Tasmania JackJumpers",
    "side": "YES",
@@ -993,12 +744,11 @@
    "cost_usd": 0.56,
    "pnl_usd": null,
    "pick": "Brisbane Bullets",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": null
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T15:50Z",
    "label": "Latvia vs. Montenegro",
    "side": "NO",
@@ -1008,12 +758,11 @@
    "cost_usd": 0.76,
    "pnl_usd": 0.24,
    "pick": null,
-   "roi_pct": 31.6,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": 31.6
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T15:50Z",
    "label": "Kometa Brno vs. Mladá Boleslav",
    "side": "NO",
@@ -1023,12 +772,11 @@
    "cost_usd": 0.39,
    "pnl_usd": -0.39,
    "pick": "Mladá Boleslav",
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T15:50Z",
    "label": "ASVEL Lyon-Villeurbanne vs. Valencia",
    "side": "YES",
@@ -1038,12 +786,11 @@
    "cost_usd": 0.43,
    "pnl_usd": -0.43,
    "pick": "ASVEL Lyon-Villeurbanne",
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T15:09Z",
    "label": "Matteo Berrettini vs Adolfo Vallejo",
    "side": "YES",
@@ -1053,27 +800,19 @@
    "cost_usd": 0.63,
    "pnl_usd": null,
    "pick": "Matteo Berrettini",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": null
   },
   {
    "strategy": "tennis_micro",
-   "venue": "kalshi",
+   "strategy_name": "Tennis micro tests",
    "at_utc": "2026-10-02T15:08Z",
-   "label": "Clement Tabur vs Sascha Gueymard-Wayenburg",
-   "side": "YES",
-   "price": 0.55,
-   "contracts": 1.0,
    "status": "loss",
-   "cost_usd": 0.55,
    "pnl_usd": -0.55,
-   "pick": "Clement Tabur",
-   "roi_pct": -100.0,
-   "strategy_name": "Tennis micro tests"
+   "detail": "aggregate"
   },
   {
    "strategy": "tennis_micro",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T15:08Z",
    "label": "Clement Tabur vs Sascha Gueymard-Wayenburg",
    "side": "YES",
@@ -1083,12 +822,11 @@
    "cost_usd": 0.57,
    "pnl_usd": -0.57,
    "pick": null,
-   "roi_pct": -100.0,
-   "strategy_name": "Tennis micro tests"
+   "strategy_name": "Tennis micro tests",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:57Z",
    "label": "Ducks vs. Golden Knights",
    "side": "YES",
@@ -1098,27 +836,19 @@
    "cost_usd": 0.38,
    "pnl_usd": null,
    "pick": "Ducks",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": null
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "kalshi",
+   "strategy_name": "Smart-wallet sweeps",
    "at_utc": "2026-10-02T14:57Z",
-   "label": "Maria Sakkari vs Storm Hunter",
-   "side": "YES",
-   "price": 0.7,
-   "contracts": 1.0,
    "status": "open",
-   "cost_usd": 0.7,
    "pnl_usd": null,
-   "pick": "Maria Sakkari",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "detail": "aggregate"
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:56Z",
    "label": "Augsburger Panther vs. Grizzlys Wolfsburg",
    "side": "YES",
@@ -1128,12 +858,11 @@
    "cost_usd": 0.52,
    "pnl_usd": 0.48,
    "pick": "Augsburger Panther",
-   "roi_pct": 92.3,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": 92.3
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:56Z",
    "label": "Krefeld Pinguine vs. ERC Ingolstadt",
    "side": "YES",
@@ -1143,12 +872,11 @@
    "cost_usd": 0.54,
    "pnl_usd": 0.46,
    "pick": "Krefeld Pinguine",
-   "roi_pct": 85.2,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": 85.2
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:56Z",
    "label": "Belgium vs. Türkiye",
    "side": "NO",
@@ -1158,12 +886,11 @@
    "cost_usd": 0.84,
    "pnl_usd": 0.16,
    "pick": null,
-   "roi_pct": 19.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": 19.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:56Z",
    "label": "Faroe Islands vs. Slovakia",
    "side": "YES",
@@ -1173,12 +900,11 @@
    "cost_usd": 0.65,
    "pnl_usd": -0.65,
    "pick": null,
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:56Z",
    "label": "Bosnia and Herzegovina vs. Sweden",
    "side": "YES",
@@ -1188,12 +914,11 @@
    "cost_usd": 0.42,
    "pnl_usd": -0.42,
    "pick": "Sweden",
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:56Z",
    "label": "Ukraine vs. Northern Ireland",
    "side": "NO",
@@ -1203,12 +928,11 @@
    "cost_usd": 0.54,
    "pnl_usd": 0.46,
    "pick": "Ukraine",
-   "roi_pct": 85.2,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": 85.2
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:56Z",
    "label": "Pittsburgh vs. Virginia Tech",
    "side": "YES",
@@ -1218,12 +942,11 @@
    "cost_usd": 0.47,
    "pnl_usd": null,
    "pick": "Pittsburgh",
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": null
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:56Z",
    "label": "Capitals vs. Hurricanes",
    "side": "YES",
@@ -1233,12 +956,11 @@
    "cost_usd": 0.45,
    "pnl_usd": 0.55,
    "pick": "Capitals",
-   "roi_pct": 122.2,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": 122.2
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:56Z",
    "label": "EC Juventude vs. Operário Ferroviário EC",
    "side": "NO",
@@ -1248,12 +970,11 @@
    "cost_usd": 0.49,
    "pnl_usd": -0.49,
    "pick": "EC Juventude",
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:56Z",
    "label": "Colombia vs. Paraguay",
    "side": "NO",
@@ -1263,12 +984,11 @@
    "cost_usd": 0.84,
    "pnl_usd": -0.84,
    "pick": "Paraguay",
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:56Z",
    "label": "CA Boca Juniors vs. CA Unión",
    "side": "YES",
@@ -1278,12 +998,11 @@
    "cost_usd": 0.68,
    "pnl_usd": 0.32,
    "pick": "CA Boca Juniors",
-   "roi_pct": 47.1,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": 47.1
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:56Z",
    "label": "Fortaleza EC vs. Clube Náutico Capibaribe",
    "side": "NO",
@@ -1293,12 +1012,11 @@
    "cost_usd": 0.46,
    "pnl_usd": null,
    "pick": null,
-   "roi_pct": null,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": null
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:55Z",
    "label": "Vítkovice vs. Karlovy Vary",
    "side": "YES",
@@ -1308,12 +1026,11 @@
    "cost_usd": 0.55,
    "pnl_usd": -0.55,
    "pick": "Vítkovice",
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:55Z",
    "label": "HC Kladno vs. Mountfield HK",
    "side": "NO",
@@ -1323,12 +1040,11 @@
    "cost_usd": 0.57,
    "pnl_usd": 0.43,
    "pick": "Mountfield HK",
-   "roi_pct": 75.4,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": 75.4
   },
   {
    "strategy": "wallet_sweep",
-   "venue": "polymarket",
    "at_utc": "2026-10-02T14:55Z",
    "label": "Liberec vs. Olomouc",
    "side": "NO",
@@ -1338,8 +1054,8 @@
    "cost_usd": 0.37,
    "pnl_usd": -0.37,
    "pick": "Olomouc",
-   "roi_pct": -100.0,
-   "strategy_name": "Smart-wallet sweeps"
+   "strategy_name": "Smart-wallet sweeps",
+   "roi_pct": -100.0
   }
  ],
  "sources": [
@@ -1362,6 +1078,7 @@
  "notes": [
   "ROI = net P&L after fees / dollars staked, settled bets only.",
   "Closed early = sold before settlement; counted as a win or loss by its P&L.",
-  "Arbitrage pairs appear only when a copy of the arb ledger is on the box."
+  "Some venues' per-bet prices aren't published; those bets show only date, strategy, result and P&L, and count in the totals.",
+  "Avg price uses only bets whose prices can be published."
  ]
 }
