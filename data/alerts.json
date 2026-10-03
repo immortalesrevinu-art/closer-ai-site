@@ -1,5 +1,5 @@
 {
- "snapshot_at": 1791003121,
+ "snapshot_at": 1791040825,
  "source": "smart-money alert log",
  "log": [
   {
@@ -595,7 +595,7 @@
    "slug": "atp-shapova-tabilo-2026-10-02",
    "asset": "59484364948136031097253793194815916612408687544782099437400020470624909929307",
    "at": 1790998786.9281244,
-   "result": null
+   "result": "win"
   },
   {
    "title": "China Open: Ashlyn Krueger vs Ann Li",
@@ -611,7 +611,7 @@
    "slug": "wta-krueger-annli-2026-10-01",
    "asset": "54563418335905423050509722383746051085709327525902970347051074985820277685839",
    "at": 1790999127.6776567,
-   "result": null
+   "result": "loss"
   },
   {
    "title": "China Open: Alex de Minaur vs Quentin Halys",
@@ -627,7 +627,7 @@
    "slug": "atp-minaur-halys-2026-10-01",
    "asset": "4791813735540025278172569156179174689779780867072588748052672016317043921610",
    "at": 1791000148.932293,
-   "result": null
+   "result": "loss"
   },
   {
    "title": "China Open: Donna Vekic vs Lin Zhu",
@@ -644,7 +644,7 @@
    "slug": "wta-vekic-zhu-2026-10-02",
    "asset": "81181285828615075315893483095197828358499303726797849755320866687297732132339",
    "at": 1791002911.214945,
-   "result": null
+   "result": "loss"
   }
  ]
 }
