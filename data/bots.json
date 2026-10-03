@@ -1,11 +1,11 @@
 {
- "generated_at_utc": "2026-10-03T20:01Z",
+ "generated_at_utc": "2026-10-03T20:17Z",
  "show_dollars": true,
  "totals": {
   "settled": 99,
   "wins": 59,
   "losses": 40,
-  "open": 59,
+  "open": 64,
   "staked_usd": 231.97,
   "pnl_usd": 57.87,
   "roi_pct": 24.9
@@ -131,7 +131,7 @@
    "wins": 0,
    "losses": 0,
    "closed_early": 0,
-   "open": 24,
+   "open": 29,
    "win_rate_pct": null,
    "roi_pct": null,
    "avg_price": null,
@@ -1053,8 +1053,8 @@
   },
   {
    "name": "copy bets",
-   "rows_used": 24,
-   "updated_utc": "2026-10-03T19:59Z"
+   "rows_used": 29,
+   "updated_utc": "2026-10-03T20:16Z"
   }
  ],
  "notes": [
