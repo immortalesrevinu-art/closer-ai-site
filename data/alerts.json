@@ -1,5 +1,5 @@
 {
- "snapshot_at": 1791000647,
+ "snapshot_at": 1791003121,
  "source": "smart-money alert log",
  "log": [
   {
@@ -563,7 +563,7 @@
    "slug": "cfb-pitt-vtech-2026-10-02",
    "asset": "46836206381679876639183924639779072303435836778122333705531837377152739922333",
    "at": 1790991498.9884057,
-   "result": null
+   "result": "loss"
   },
   {
    "title": "Dallas Wings vs. Golden State Valkyries",
@@ -579,7 +579,7 @@
    "slug": "wnba-dal-gsv-2026-10-02",
    "asset": "88798964875804409216316124940683776768399792907049164311382275881183211765403",
    "at": 1790991802.0044403,
-   "result": null
+   "result": "loss"
   },
   {
    "title": "Japan Open Tennis Championships: Denis Shapovalov vs Alejandro Tabilo",
@@ -627,6 +627,23 @@
    "slug": "atp-minaur-halys-2026-10-01",
    "asset": "4791813735540025278172569156179174689779780867072588748052672016317043921610",
    "at": 1791000148.932293,
+   "result": null
+  },
+  {
+   "title": "China Open: Donna Vekic vs Lin Zhu",
+   "outcome": "Lin Zhu",
+   "traders": [
+    "HomeRunHazard",
+    "UpTheBlues",
+    "omnibus-076daa"
+   ],
+   "n": 3,
+   "usd": 3228,
+   "their_avg": 0.61,
+   "ask_now": 0.546,
+   "slug": "wta-vekic-zhu-2026-10-02",
+   "asset": "81181285828615075315893483095197828358499303726797849755320866687297732132339",
+   "at": 1791002911.214945,
    "result": null
   }
  ]
