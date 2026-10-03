@@ -279,7 +279,7 @@ async function ask(slug) {
   const run = async (inc) => {
     const { data, error } = await sb.functions.invoke("research-run", { body: { kind: "scan", event_slug: slug, include_holdings: !!inc } });
     const out = $("#askout"); if (!out) return;
-    if (error) { out.innerHTML = `<div class="flash err">${esc(await fnError(error))}</div>${/key/i.test(await fnError(error)) ? `<a class="btn ghost sm" href="#/account" data-close>Open Account</a>` : ""}`; return; }
+    if (error) { const msg = await fnError(error); out.innerHTML = `<div class="flash err">${esc(msg)}</div>${/key|model|provider/i.test(msg) ? `<a class="btn ghost sm" href="#/account" data-close>Open Account</a>` : ""}`; return; }
     out.innerHTML = `<div class="ans">${esc(data.result.summary)}</div><p class="mute" style="font-size:11.5px;margin-top:8px">${esc(data.result.disclaimer)}${data.result.usage?.total_tokens ? ` · ${data.result.usage.total_tokens} tokens` : ""}</p>`;
   };
   const cb = $("#inclH"); if (cb) cb.onchange = () => { $("#askout").innerHTML = '<div class="skel" style="min-height:120px"></div>'; run(cb.checked); };
