@@ -94,7 +94,6 @@ const pct = (p) => p == null || isNaN(p) ? "–" : p < 0.01 && p > 0 ? "<1%" : p
 const mult = (p) => !(p > 0) || p >= 1 ? "–" : p < 0.005 ? ">200x" : (1 / p).toFixed(p > 0.5 ? 2 : 1) + "x";
 const money = (v) => { v = Number(v || 0); return v >= 1e9 ? "$" + (v / 1e9).toFixed(1) + "B" : v >= 1e6 ? "$" + (v / 1e6).toFixed(1) + "M" : v >= 1e3 ? "$" + Math.round(v / 1e3) + "K" : "$" + Math.round(v); };
 const COLORS = ["var(--c1)", "var(--c2)", "var(--c3)", "var(--c4)", "var(--c5)", "var(--c6)"];
-const HEX = ["#0a9d5c", "#2563eb", "#f59e0b", "#d6334a", "#7c3aed", "#0891b2"];
 function rows(e) { // outcome rows for an event: [{label, p, token}]
   const ms = (e.markets || []).filter((m) => m.active !== false && !m.closed);
   if (!ms.length) return [];
@@ -137,9 +136,9 @@ async function chartSVG(series, w = 640, h = 240) {
   const pts = series.flatMap((s) => s.h); if (pts.length < 2) return `<p class="mute" style="padding:30px 0;text-align:center">No price history yet.</p>`;
   const t0 = Math.min(...pts.map((p) => p[0])), t1 = Math.max(...pts.map((p) => p[0]));
   const L = 6, R = 40, T = 10, B = 22, X = (t) => L + (t - t0) / Math.max(1, t1 - t0) * (w - L - R), Y = (p) => T + (1 - p) * (h - T - B);
-  const grid = [0, .25, .5, .75, 1].map((g) => `<line x1="${L}" x2="${w - R}" y1="${Y(g)}" y2="${Y(g)}" stroke="#eef0f3"/><text x="${w - R + 6}" y="${Y(g) + 4}">${g * 100}%</text>`).join("");
+  const grid = [0, .25, .5, .75, 1].map((g) => `<line x1="${L}" x2="${w - R}" y1="${Y(g)}" y2="${Y(g)}" style="stroke:var(--grid)"/><text x="${w - R + 6}" y="${Y(g) + 4}">${g * 100}%</text>`).join("");
   const fmt = (t) => new Date(t * 1000).toLocaleDateString([], { month: "short", day: "numeric" });
-  const lines = series.map((s, i) => s.h.length ? `<polyline fill="none" stroke="${HEX[i % 6]}" stroke-width="2" stroke-linejoin="round" points="${s.h.map(([t, p]) => X(t).toFixed(1) + "," + Y(p).toFixed(1)).join(" ")}"/><circle cx="${X(s.h.at(-1)[0])}" cy="${Y(s.h.at(-1)[1])}" r="3.5" fill="${HEX[i % 6]}"/>` : "").join("");
+  const lines = series.map((s, i) => s.h.length ? `<polyline fill="none" style="stroke:${COLORS[i % 6]}" stroke-width="2" stroke-linejoin="round" points="${s.h.map(([t, p]) => X(t).toFixed(1) + "," + Y(p).toFixed(1)).join(" ")}"/><circle cx="${X(s.h.at(-1)[0])}" cy="${Y(s.h.at(-1)[1])}" r="3.5" style="fill:${COLORS[i % 6]}"/>` : "").join("");
   return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="Price history">${grid}${lines}<text x="${L}" y="${h - 5}">${fmt(t0)}</text><text x="${w - R}" y="${h - 5}" text-anchor="end">${fmt(t1)}</text></svg>`;
 }
 async function drawChart(el, e, n = 4, interval = "1w") {
@@ -257,9 +256,9 @@ async function marketView(slug) {
       <div style="margin:6px 0">${tagLinks}</div>
       <div style="display:flex;gap:8px;margin:10px 0 4px;flex-wrap:wrap">${closed ? "" : aiBtn(e.slug, "")}<a class="btn ghost" href="https://polymarket.com/event/${esc(e.slug)}" target="_blank" rel="noopener">Source: Polymarket ↗</a></div>
       ${closed ? "" : `<div class="tabs">${[["1d", "1D"], ["1w", "1W"], ["1m", "1M"], ["max", "All"]].map(([k, l]) => `<button data-int="${k}" class="${k === "1w" ? "on" : ""}">${l}</button>`).join("")}</div><div id="dchart"><div class="skel" style="min-height:220px;margin-top:10px"></div></div>`}
-      ${al.length ? `<div class="card pad" style="margin-top:14px;background:#fffdf6;border-color:#f6dfb4"><b>⚡ Smart-money activity (public data)</b>${al.map((a) => `<p class="mute" style="margin:6px 0 0;font-size:13px">${esc(a.n)} top traders on <b>${esc(a.outcome)}</b> (${esc(a.title)}) · their avg ${Math.round((a.their_avg || 0) * 100)}¢${a.result ? ` · result: ${esc(a.result)}` : ""}</p>`).join("")}<p class="mute" style="font-size:11.5px;margin:6px 0 0">Observed public wallet activity. Not a pick or recommendation from Closer AI.</p></div>` : ""}
+      ${al.length ? `<div class="card pad" style="margin-top:14px;background:var(--alertbg);border-color:var(--goldline)"><b>⚡ Smart-money activity (public data)</b>${al.map((a) => `<p class="mute" style="margin:6px 0 0;font-size:13px">${esc(a.n)} top traders on <b>${esc(a.outcome)}</b> (${esc(a.title)}) · their avg ${Math.round((a.their_avg || 0) * 100)}¢${a.result ? ` · result: ${esc(a.result)}` : ""}</p>`).join("")}<p class="mute" style="font-size:11.5px;margin:6px 0 0">Observed public wallet activity. Not a pick or recommendation from Closer AI.</p></div>` : ""}
       ${e.description ? `<details style="margin-top:14px"><summary class="mute">Rules / description</summary><p style="white-space:pre-wrap;font-size:13px">${esc(e.description)}</p></details>` : ""}</div>
-    <div>${all.map((o, i) => `<div class="orow"><div class="nm"><i style="width:9px;height:9px;border-radius:50%;flex:none;background:${o.yesno && /^no$/i.test(o.label) ? "var(--red)" : i < 6 ? COLORS[i] : "#d1d5db"}"></i><span>${esc(o.label)}</span></div><div class="pc">${pct(o.p)}</div><span class="pill${o.yesno && /^no$/i.test(o.label) ? " no" : ""}">${mult(o.p)}</span></div>`).join("")}
+    <div>${all.map((o, i) => `<div class="orow"><div class="nm"><i style="width:9px;height:9px;border-radius:50%;flex:none;background:${o.yesno && /^no$/i.test(o.label) ? "var(--red)" : i < 6 ? COLORS[i] : "var(--line)"}"></i><span>${esc(o.label)}</span></div><div class="pc">${pct(o.p)}</div><span class="pill${o.yesno && /^no$/i.test(o.label) ? " no" : ""}">${mult(o.p)}</span></div>`).join("")}
       <p class="mute" style="font-size:11.5px;margin:10px 0 0">Prices are public Polymarket prices. Payout multiple = 1 ÷ price. Read-only; Closer AI never places bets or trades.</p></div></article>`;
 }
 
@@ -389,7 +388,7 @@ const views = {
         <input id="modelpick2" value="${inList ? "" : esc(k.model || "")}" placeholder="model ID" style="${inList ? "display:none" : ""}"></div>`
       : k ? `<div class="f" style="margin-top:8px;grid-template-columns:1fr auto;max-width:460px"><input type="hidden" id="modelpick" value="__other"><input id="modelpick2" value="${esc(k.model || "")}" placeholder="model ID"><button class="btn ghost sm" id="modelsave">Save model</button></div>` : "";
     const byAcct = (id) => hold.filter((h) => h.account_id === id);
-    const brkCard = `<div class="conn" style="grid-column:1/-1"><div class="ic" style="background:#111418">$</div><div style="flex:1;min-width:0">
+    const brkCard = `<div class="conn" style="grid-column:1/-1"><div class="ic" style="background:var(--ai);color:var(--aiink)">$</div><div style="flex:1;min-width:0">
         <h3>Brokerage <span class="tag">read-only</span>${ctx.brk.length ? '<span class="tag ok">connected</span>' : brkCfg?.configured ? "" : '<span class="tag">coming soon</span>'}</h3>
         <p class="mute" style="font-size:13px">Connect Robinhood, Schwab, Fidelity, E*TRADE, Webull, Vanguard and more through SnapTrade with <b>read-only</b> permission. Your own AI can then see your holdings for context. No order placement, no transfers: your money never leaves your brokerage.</p>
         ${ctx.brk.length ? ctx.brk.map((a) => `<div class="card" style="margin-top:10px;padding:10px 12px"><b>${esc(a.institution)}</b> · ${esc(a.name || "Account")} ${a.number_mask ? `…${esc(a.number_mask)}` : ""} <span class="mute" style="font-size:12px">${a.synced_at ? "synced " + new Date(a.synced_at).toLocaleString() : ""}</span>
@@ -404,7 +403,7 @@ const views = {
       ${p.state_blocked ? "" : `<section class="card pad" id="connected"><h2>Connected accounts</h2>
         <p style="margin:8px 0 12px;font-size:13.5px">Closer AI is only a connection hub. <b>Your own AI</b> (your key) analyzes <b>your own connected accounts</b>. Closer AI gives no suggestions of its own and no shared picks. Your money never leaves your brokerage or market account: Closer AI holds <b>no funds</b> and has <b>read-only</b> access. Nothing here can place bets, trades, or transfers.</p>
         <div class="g2" style="margin:0;grid-template-columns:minmax(0,1fr)">
-        <div class="conn" id="aicard" style="grid-column:1/-1"><div class="ic" style="background:var(--green)">${AIICON}</div><div style="flex:1;min-width:0"><h3>Your AI provider ${k ? statusTxt : '<span class="tag">not connected</span>'}</h3>
+        <div class="conn" id="aicard" style="grid-column:1/-1"><div class="ic" style="background:var(--green);color:var(--greenink)">${AIICON}</div><div style="flex:1;min-width:0"><h3>Your AI provider ${k ? statusTxt : '<span class="tag">not connected</span>'}</h3>
         ${k ? `<p><b>${esc(provName(k.provider))}</b>${k.base_url ? ` · <span class="mute">${esc(k.base_url)}</span>` : ""} · model <code>${esc(k.model || "")}</code> · key <code>••••${esc(k.last4)}</code></p><p class="mute" style="font-size:12px">${k.tested_at ? "Last checked " + new Date(k.tested_at).toLocaleString() : ""}</p>${modelPicker}
           <p style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn ghost sm" id="keytest">Test key</button><button class="btn ghost sm" id="keyrep">Replace / switch provider</button><button class="btn ghost sm" id="keydel">Delete</button></p>${keyForm(true)}`
         : `<p class="mute" style="font-size:13px">Pick any provider and use your own API key; runs bill to your account with that provider.</p>${keyForm(false)}`}</div></div>

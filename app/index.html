@@ -1,17 +1,18 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow"><title>Closer AI · Markets (beta)</title><meta name="theme-color" content="#ffffff">
-<link rel="stylesheet" href="assets/app.css?v=3"><link rel="icon" href="assets/favicon.svg">
+<meta name="robots" content="noindex,nofollow"><title>Closer AI · Markets (beta)</title><meta name="theme-color" content="#05070a">
+<script>!function(){var t;try{t=localStorage.getItem("closerai-theme")}catch(e){}t=t==="light"?"light":"dark";var d=document.documentElement;d.setAttribute("data-theme",t);d.style.colorScheme=t;var m=document.querySelector('meta[name="theme-color"]');if(m)m.content=t==="light"?"#ffffff":"#05070a"}()</script>
+<link rel="stylesheet" href="assets/app.css?v=4"><link rel="icon" href="assets/favicon.svg">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="assets/config.js?v=3"></script></head><body>
 <div class="beta">FREE BETA · Read-only connection hub<span class="hide-sm"> · Your AI, your accounts</span> · Never places bets or trades</div>
 <header class="tb"><div class="tbw">
   <a class="logo" href="#/markets"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#0a9d5c"/><path d="M16.5 8.2A5 5 0 1 0 16.5 15.8" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>Closer<span>AI</span></a>
   <form class="srch" id="srch" role="search"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2"/></svg><input id="q" type="search" placeholder="Search markets" autocomplete="off"></form>
-  <nav class="nav" id="nav"></nav><div class="auth" id="authnav"></div>
+  <nav class="nav" id="nav"></nav><div class="auth" id="authnav"></div><button class="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch to light theme"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 1.5v2.5M12 20v2.5M1.5 12H4M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg></button>
 </div><div class="catrow"><div class="cats" id="cats"></div></div></header>
 <main class="wrap"><div id="flash"></div><div id="view"><p class="mute pad">Loading…</p></div></main>
 <div id="modal" class="modal" hidden></div>
 <footer class="foot"><div class="wrap"><p><b>Closer AI</b> (beta) is only a connection hub. Your own AI, using your own API key, analyzes your own connected accounts and public market data. Closer AI gives no picks or suggestions of its own.
 Your money never leaves your brokerage or market account: Closer AI holds no funds, has read-only access, and never places bets or trades. Market data: Polymarket public API. Educational information only, not financial or betting advice. 18+ only. Not available in all states.</p></div></footer>
 <nav class="mobnav" id="mobnav"></nav>
-<script src="assets/app.js?v=3"></script></body></html>
+<script src="assets/theme.js?v=1"></script><script src="assets/app.js?v=4"></script></body></html>

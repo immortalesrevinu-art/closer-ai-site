@@ -175,6 +175,10 @@
        <td><span class="out">${esc(b.outcome)}</span></td><td class="num">${cents(b.price)}</td><td class="num">${usd(b.usd)}</td></tr>`).join('')
       : `<tr><td colspan="5" class="mute">No buys from tracked top traders in the current feed for this market.</td></tr>`;
   }
+  // theme-aware chart colors (read from CSS variables at draw time; redrawn when the theme changes)
+  const cv = (n, d) => (getComputedStyle(document.documentElement).getPropertyValue(n) || '').trim() || d;
+  const light = () => document.documentElement.getAttribute('data-theme') === 'light';
+  window.addEventListener('closer-theme', () => { if (chart && cur && cur.token) drawChart(); });
   async function drawChart() {
     const m = ensureModal(), token = cur.token, range = cur.range;
     m.querySelectorAll('#mm-range button').forEach((b) => b.classList.toggle('on', b.dataset.r === range));
@@ -194,20 +198,20 @@
     if (!window.Chart) { st.textContent = 'Chart library failed to load.'; return; }
     chart = new Chart(ctx, {
       data: { datasets: [
-        { type: 'line', label: 'Price', data: hist.map(([t, p]) => ({ x: t, y: p * 100 })), borderColor: '#3b82f6', borderWidth: 2, pointRadius: 0, tension: 0.15, fill: { target: 'origin', above: 'rgba(59,130,246,.08)' } },
-        { type: 'scatter', label: 'Top-trader buys', data: marks.map((b) => ({ x: b.ts, y: b.price * 100, b })), backgroundColor: 'rgba(34,211,138,.85)', borderColor: '#04120b', borderWidth: 1,
+        { type: 'line', label: 'Price', data: hist.map(([t, p]) => ({ x: t, y: p * 100 })), borderColor: cv('--blue', '#3b82f6'), borderWidth: 2, pointRadius: 0, tension: 0.15, fill: { target: 'origin', above: light() ? 'rgba(37,99,235,.08)' : 'rgba(59,130,246,.08)' } },
+        { type: 'scatter', label: 'Top-trader buys', data: marks.map((b) => ({ x: b.ts, y: b.price * 100, b })), backgroundColor: light() ? 'rgba(10,143,85,.85)' : 'rgba(34,211,138,.85)', borderColor: light() ? '#ffffff' : '#04120b', borderWidth: 1,
           pointRadius: marks.map((b) => Math.max(4, Math.min(16, Math.sqrt(b.usd) / 6))), pointHoverRadius: marks.map((b) => Math.max(6, Math.min(18, Math.sqrt(b.usd) / 6 + 2))) },
       ] },
       options: {
         responsive: true, maintainAspectRatio: false, animation: false, parsing: false,
         interaction: { mode: 'nearest', intersect: false },
         scales: {
-          x: { type: 'linear', min: hist.length ? t0 : undefined, max: hist.length ? t1 : undefined, grid: { color: '#1c2430' },
-            ticks: { color: '#8a96a8', maxTicksLimit: 6, callback: (v) => mtTick(v, span) } },
-          y: { suggestedMin: 0, suggestedMax: 100, grid: { color: '#1c2430' }, ticks: { color: '#8a96a8', callback: (v) => v + '¢' } },
+          x: { type: 'linear', min: hist.length ? t0 : undefined, max: hist.length ? t1 : undefined, grid: { color: cv('--line', '#1c2430') },
+            ticks: { color: cv('--mute', '#8a96a8'), maxTicksLimit: 6, callback: (v) => mtTick(v, span) } },
+          y: { suggestedMin: 0, suggestedMax: 100, grid: { color: cv('--line', '#1c2430') }, ticks: { color: cv('--mute', '#8a96a8'), callback: (v) => v + '¢' } },
         },
         plugins: {
-          legend: { labels: { color: '#e8edf4', boxWidth: 10 } },
+          legend: { labels: { color: cv('--text', '#e8edf4'), boxWidth: 10 } },
           tooltip: { callbacks: {
             title: (it) => it.length ? mt(it[0].parsed.x, true) : '',
             label: (it) => it.raw.b ? `${it.raw.b.name} bought ${cents(it.raw.b.price)} · ${usd(it.raw.b.usd)}` : `Price ${it.parsed.y.toFixed(1)}¢`,

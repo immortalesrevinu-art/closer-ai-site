@@ -31,7 +31,7 @@
         <td class="num ${cls(s.roi_pct)}">${pct(s.roi_pct, true)}</td>
         <td class="num usd ${cls(s.pnl_usd)}">${s.pnl_usd == null ? '–' : (s.pnl_usd > 0 ? '+' : '') + usd(s.pnl_usd)}</td>
         <td class="num hide-sm">${s.avg_price == null ? '–' : cents(s.avg_price)}</td><td class="num">${s.open}</td>
-        <td class="hide-sm" style="min-width:120px"><div style="height:6px;background:#1a212c;border-radius:9px;overflow:hidden"><i style="display:block;height:100%;width:${p}%;background:var(--green)"></i></div>
+        <td class="hide-sm" style="min-width:120px"><div style="height:6px;background:var(--track);border-radius:9px;overflow:hidden"><i style="display:block;height:100%;width:${p}%;background:var(--green)"></i></div>
         <span class="mute" style="font-size:11.5px">${s.settled}/${BAR}</span></td></tr>`;
     }).join('') || '<tr><td colspan="9" class="mute">No bets yet.</td></tr>';
     $('recent-sub').textContent = `latest ${D.recent.length}`;
