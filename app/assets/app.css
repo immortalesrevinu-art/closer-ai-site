@@ -89,9 +89,18 @@ pre{white-space:pre-wrap;font-size:12px;color:var(--mute)}code{background:var(--
  .mobnav a{flex:1;text-align:center;font-size:11px;font-weight:600;color:var(--mute);padding:4px 0;display:flex;flex-direction:column;align-items:center;gap:2px}.mobnav a.on{color:var(--green)}
  .mobnav svg{width:20px;height:20px}}
 @media (max-width:560px){.hide-sm{display:none}.wrap{padding:0 14px}.tbw{padding:8px 14px;gap:10px}.logo{font-size:16px}.srch{max-width:none}.auth .btn.ghost:not(#logout){display:none}
- .subchips{margin:0 -14px;padding-left:14px;padding-right:14px}h1{font-size:22px}.grid{grid-template-columns:1fr}.feat h2{font-size:18px}.orow .pc{font-size:17px;min-width:46px}.beta{font-size:11px}}
+ .subchips{margin:0 -14px;padding-left:14px;padding-right:14px}h1{font-size:22px}.grid{grid-template-columns:minmax(0,1fr)}.feat h2{font-size:18px}.orow .pc{font-size:17px;min-width:46px}.beta{font-size:11px}}
 /* theme toggle */
 .theme-toggle{display:inline-grid;place-items:center;width:36px;height:36px;flex:none;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;padding:0}
 .theme-toggle:hover{background:var(--soft)}.theme-toggle:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .theme-toggle svg{width:18px;height:18px}.theme-toggle .sun{display:none}html[data-theme=light] .theme-toggle .sun{display:block}html[data-theme=light] .theme-toggle .moon{display:none}
 .tb .theme-toggle{margin-left:4px}
+/* "More" pages menu (header) */
+.more-menu{position:relative}.more-menu summary{list-style:none;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--text);font-weight:600;cursor:pointer}
+.more-menu summary::-webkit-details-marker{display:none}.more-menu summary:hover{background:var(--soft)}.more-menu svg{display:none}
+.more-pop{position:absolute;right:0;top:42px;min-width:220px;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px var(--shadow);padding:6px;z-index:40;display:flex;flex-direction:column}
+.more-pop a{padding:9px 10px;border-radius:8px;font-weight:600}.more-pop a:hover{background:var(--soft)}.more-pop small{color:var(--mute);font-weight:500;margin-left:4px}
+@media (max-width:560px){.more-menu summary{padding:0 8px}.more-menu .more-l{display:none}.more-menu svg{display:block}.tbw .srch{min-width:0}}
+.srch input{min-width:0}
+@media (max-width:560px){.tbw{gap:8px}.auth .btn.sm{padding:6px 9px}.theme-toggle{width:34px;height:34px}}
+.mc{min-width:0}.mc h3,.feat h2{overflow-wrap:anywhere}

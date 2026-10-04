@@ -33,3 +33,5 @@ html[data-theme=light] .wait input{background:#fff}
 html[data-theme=light] .err{color:var(--red)}
 html[data-theme=light] h1 em{color:#087a48}
 .navcta .theme-toggle{width:42px;height:42px;align-self:center;border-radius:10px}@media(max-width:560px){.navcta .theme-toggle{width:36px;height:36px}}
+/* small screens: header nav scrolls sideways instead of pushing the toggle off-screen */
+@media(max-width:640px){.top .nav{overflow-x:auto;min-width:0;scrollbar-width:none;-webkit-overflow-scrolling:touch}.top .nav::-webkit-scrollbar{display:none}.top .nav a{flex:none}.top .logo{font-size:17px}.top .theme-toggle{width:32px;height:32px}.top .live{flex:none}}

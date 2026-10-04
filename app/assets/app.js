@@ -4,6 +4,7 @@ const C = window.CLOSER_CONFIG;
 const sb = window.supabase.createClient(C.supabaseUrl, C.supabaseKey);
 const $ = (s, r = document) => r.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const ROOT = C.siteRoot ?? "../";
 const GAMMA = "https://gamma-api.polymarket.com", CLOB = "https://clob.polymarket.com";
 const STATES = "AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split(" ");
 const RUNS = { scan: ["Market scan", 1], digest: ["Digest", 3], deep: ["Deep research", 10] };
@@ -173,8 +174,10 @@ const ICON = { markets: '<path d="M4 19V9M10 19V5M16 19v-7M22 19H2" stroke="curr
 function nav() {
   const r = route(), on = (h) => (r === h || (h === "/markets" && r.startsWith("/market"))) ? "on" : "";
   const items = [["/markets", "Markets"], ["/live", "Live"], ["/research", "Research"], ["/alerts", "Alerts"]];
-  $("#nav").innerHTML = items.map(([h, l]) => `<a href="#${h}" class="${on(h)}">${l}</a>`).join("") + `<a href="../bots.html">My bots</a><a href="#/account" class="${on("/account")}">Account</a>`;
+  $("#nav").innerHTML = items.map(([h, l]) => `<a href="#${h}" class="${on(h)}">${l}</a>`).join("") + `<a href="${ROOT}bots.html">My bots</a><a href="#/account" class="${on("/account")}">Account</a>`;
   $("#authnav").innerHTML = ctx.session ? `<button class="btn ghost sm" id="logout">Log out</button>` : `<a class="btn ghost sm" href="#/login">Log in</a><a class="btn sm" href="#/signup">Sign up</a>`;
+  const mm = $("#moremenu"); if (mm) mm.innerHTML = `<details class="more-menu"><summary aria-label="More pages"><span class="more-l">More</span><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></summary>
+    <div class="more-pop"><a href="${ROOT}dashboard.html">Live dashboard <small>top traders</small></a><a href="${ROOT}results.html">Alert results</a><a href="${ROOT}bots.html">My bots</a><a href="#/research">Research</a><a href="#/alerts">Alerts</a><a href="${ROOT}about.html">About Closer AI</a></div></details>`;
   const lo = $("#logout"); if (lo) lo.onclick = async () => { await sb.auth.signOut(); location.hash = "#/markets"; };
   $("#mobnav").innerHTML = [["/markets", "Markets", "markets"], ["/live", "Live", "live"], ["/research", "Research", "research"], ["/alerts", "Alerts", "alerts"], ["/account", "Account", "account"]]
     .map(([h, l, i]) => `<a href="#${h}" class="${on(h)}"><svg viewBox="0 0 24 24">${ICON[i]}</svg>${l}</a>`).join("");
@@ -306,7 +309,7 @@ const views = {
       ${list.map((a) => `<tr><td><a href="#/market/${esc(a.slug)}"><b>${esc(a.title)}</b></a><br><span class="mute" style="font-size:12px">${a.at ? new Date(a.at * 1000).toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) : ""}</span></td><td>${esc(a.outcome)}</td><td class="num">${esc(a.n)}</td><td class="num">${Math.round((a.their_avg || 0) * 100)}¢</td><td class="num">${a.ask_now != null ? Math.round(a.ask_now * 100) + "¢" : "–"}</td><td>${esc(a.result || "open")}</td><td>${a.result ? "" : aiBtn(a.slug)}</td></tr>`).join("") || `<tr><td colspan=7 class=mute>No alerts yet.</td></tr>`}</tbody></table></section>
       <section class="card"><div class="card-h"><h2>Our bots (aggregated) <span class="sub">${t.settled || 0} settled · ${t.wins || 0}–${t.losses || 0} · ROI ${p(t.roi_pct)}</span></h2></div><div class="tblwrap"><table><thead><tr><th>Strategy</th><th class="num">Settled</th><th class="num">W–L</th><th class="num">ROI</th></tr></thead><tbody>
       ${(bots.strategies || []).map((x) => `<tr><td>${esc(x.name)}</td><td class="num">${x.settled}</td><td class="num">${x.wins}–${x.losses}</td><td class="num">${p(x.roi_pct)}</td></tr>`).join("")}</tbody></table></div>
-      <p class="mute" style="padding:0 16px 14px;font-size:12px">Totals from our own accounts. Not a promise of future results and not advice. <a href="../bots.html">Full bot stats →</a></p></section>`;
+      <p class="mute" style="padding:0 16px 14px;font-size:12px">Totals from our own accounts. Not a promise of future results and not advice. <a href="${ROOT}bots.html">Full bot stats →</a></p></section>`;
   },
   "/pricing": () => `<h1 style="margin-top:18px">Pricing</h1>${ctx.beta ? `<div class="flash">Free beta: everything is free right now. No card needed.</div>` : ""}${HUB}<div class="g2"><div class="card pad" style="border-color:var(--green)"><h2>Member</h2>
     <div class="big">$19<span class="mute" style="font-size:14px">/month</span></div><p class="mute">The connection hub: market browser, public smart-money alerts, and unlimited* research runs by <b>your own AI</b> with your own API key (billed by your provider, not Closer AI).</p>
@@ -322,7 +325,7 @@ const views = {
       f.onsubmit = async (e) => {
         e.preventDefault(); if (blocked.includes(st.value)) return;
         if (!f.adult.checked || !f.terms.checked) return flash("Please confirm you're 18+ and accept the terms.", true);
-        const { data, error } = await sb.auth.signUp({ email: f.email.value.trim(), password: f.password.value, options: { data: { state: st.value, adult: true, terms: true }, emailRedirectTo: location.origin + location.pathname } });
+        const { data, error } = await sb.auth.signUp({ email: f.email.value.trim(), password: f.password.value, options: { data: { state: st.value, adult: true, terms: true }, emailRedirectTo: C.appUrl || location.origin + location.pathname } });
         if (error) return flash(error.message, true);
         if (!data.session) go("#/login", "Check your email to confirm your account, then log in."); else location.hash = "#/account";
       };
