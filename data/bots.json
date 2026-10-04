@@ -1,5 +1,5 @@
 {
- "generated_at_utc": "2026-10-04T02:21Z",
+ "generated_at_utc": "2026-10-04T02:32Z",
  "show_dollars": true,
  "totals": {
   "settled": 99,
@@ -1054,7 +1054,7 @@
   {
    "name": "copy bets",
    "rows_used": 80,
-   "updated_utc": "2026-10-04T02:20Z"
+   "updated_utc": "2026-10-04T02:23Z"
   }
  ],
  "notes": [
