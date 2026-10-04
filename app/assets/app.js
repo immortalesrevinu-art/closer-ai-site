@@ -17,13 +17,18 @@ const AI = {
 };
 const provName = (p) => AI[p]?.name || p;
 const ERR = {
-  stripe_sandbox_not_configured: "Payments aren't switched on yet. Closer AI is free during the beta.",
+  stripe_sandbox_not_configured: "Checkout isn't switched on yet (Stripe test mode is still being set up). Nothing was charged.",
   live_stripe_key_refused: "Payments are disabled: this backend only runs in Stripe test mode.",
   not_available_in_state: "Closer AI isn't available in your state.",
-  active_plan_required: "You need an active Member plan first.",
+  active_plan_required: "This needs a paid plan.",
+  ai_plan_required: "Connecting an AI is part of Connect AI ($15.99/mo) and Pro. The Free plan doesn't include AI.",
+  connector_limit_reached: "You've reached your plan's AI connector limit. Remove one, or upgrade to Pro to connect more.",
+  pro_plan_required: "Member bots are part of the Pro plan.", bot_limit_reached: "You've reached the Pro bot limit. Delete a bot to add another.",
+  bot_not_found: "That bot wasn't found.", plan_change_needs_price_ids: "Switching plans isn't switched on yet. Try again later.",
+  not_available: "That item is no longer offered.", unknown_item: "Pick a plan.",
   adult_and_terms_required: "Please confirm you're 18+ and accept the terms.",
   adult_confirmation_required: "Please confirm you're 18+.",
-  already_subscribed: "You already have an active plan.",
+  already_subscribed: "You're already on this plan.",
   sign_in_required: "Please log in again.",
   ai_key_required: "Connect your own AI provider key on the Account page first.",
   ai_key_rejected: "Your AI provider rejected this API key. Check it in their console and save it again.",
@@ -40,9 +45,16 @@ const ERR = {
   base_url_ip_literal_not_allowed: "Use a hostname, not an IP address.", base_url_unresolvable: "That hostname doesn't resolve.",
   rate_limited: "Too many runs this hour. Try again later.",
   market_data_unavailable: "Public market data is unavailable right now.", market_not_found: "That market wasn't found.",
-  brokerage_not_configured: "Brokerage connections aren't switched on yet. Coming soon.",
+  brokerage_not_configured: "Brokerage connections aren't switched on yet. Coming soon.", delete_failed: "Couldn't remove it. Try again.", save_failed: "Couldn't save. Try again.",
   brokerage_not_connected: "Connect a brokerage first.", brokerage_unavailable: "The brokerage connection service is unavailable. Try again later.",
 };
+const PLAN_CODES = new Set(["ai_plan_required", "connector_limit_reached", "pro_plan_required", "bot_limit_reached", "active_plan_required"]);
+const PLANS = { // display defaults; live values come from public.plan_limits
+  free: { label: "Free", price_cents: 0, ai_connectors: 0, runs_per_hour: 0, bots: 0 },
+  connect: { label: "Connect AI", price_cents: 1599, ai_connectors: 1, runs_per_hour: 60, bots: 0 },
+  pro: { label: "Pro", price_cents: 3999, ai_connectors: 5, runs_per_hour: 200, bots: 10 },
+};
+const usd = (c) => "$" + (c / 100).toFixed(2).replace(/\.00$/, "");
 const HUB = `<div class="hub"><b>How Closer AI works:</b> it's only a connection hub. <b>Your own AI</b> (your key) analyzes <b>your own connected accounts</b> and public market data. Closer AI gives no picks or suggestions of its own. Your money never leaves your brokerage or market account; Closer AI holds no funds and has <b>read-only</b> access.</div>`;
 
 // ---------- categories (built from Polymarket public tags) ----------
@@ -150,24 +162,39 @@ async function drawChart(el, e, n = 4, interval = "1w") {
 }
 
 // ---------- auth context ----------
-let ctx = { session: null, beta: false, profile: null, sub: null, key: null, brk: [] };
+let ctx = { session: null, betaPlan: null, profile: null, sub: null, key: null, keys: [], plan: null, bots: [], brk: [] };
 let keep = false;
 function go(hash, msg, err = false) { keep = true; location.hash = hash; flash(msg, err); }
-function flash(msg, err = false) { $("#flash").innerHTML = msg ? `<div class="flash${err ? " err" : ""}">${esc(msg)}</div>` : ""; }
+let lastErr = "";
+function flash(msg, err = false) { $("#flash").innerHTML = msg ? `<div class="flash${err ? " err" : ""}">${esc(msg)}${err && PLAN_CODES.has(lastErr) ? ` <a href="#/pricing"><u>See plans</u></a>` : ""}</div>` : ""; lastErr = ""; }
 const paid = () => ctx.sub && ctx.sub.status === "active" && new Date(ctx.sub.current_period_end) > new Date();
-const active = () => ctx.beta || paid();
-async function fnError(error) { try { const j = await error.context.json(); return ERR[j.error] || j.message || j.error || error.message; } catch { return error.message; } }
+const planId = () => ctx.plan?.plan || "free";
+const hasAI = () => planId() === "connect" || planId() === "pro";
+const isPro = () => planId() === "pro";
+const limits = (id = planId()) => PLANS[id] || PLANS.free;
+async function fnError(error) { try { const j = await error.context.json(); lastErr = j.error || ""; return ERR[j.error] || j.message || j.error || error.message; } catch { lastErr = ""; return error.message; } }
+const dbError = (e) => { const m = String(e?.message || ""); const c = ["pro_plan_required", "bot_limit_reached", "ai_plan_required", "connector_limit_reached"].find((k) => m.includes(k)) || (/row-level security/i.test(m) ? "pro_plan_required" : ""); lastErr = c; return ERR[c] || "Couldn't save. Try again."; };
+let plansLoaded = false;
+async function loadPlans() {
+  if (plansLoaded) return; const { data } = await sb.from("plan_limits").select("*");
+  (data || []).forEach((r) => { PLANS[r.plan] = { ...PLANS[r.plan], ...r }; }); plansLoaded = !!data;
+}
 async function loadCtx() {
   const { data: { session } } = await sb.auth.getSession();
-  const { data: st } = await sb.from("app_settings").select("value").eq("key", "free_beta").maybeSingle();
-  ctx.beta = st?.value === true; ctx.session = session; ctx.profile = ctx.sub = ctx.key = null; ctx.brk = [];
+  const [{ data: st }] = await Promise.all([sb.from("app_settings").select("value").eq("key", "beta_plan").maybeSingle(), loadPlans()]);
+  ctx.betaPlan = typeof st?.value === "string" ? st.value : null; ctx.session = session;
+  ctx.profile = ctx.sub = ctx.key = ctx.plan = null; ctx.keys = []; ctx.bots = []; ctx.brk = [];
   if (!session) return;
-  const [p, s, k, b] = await Promise.all([
+  const [p, s, k, b, pl] = await Promise.all([
     sb.from("profiles").select("*").maybeSingle(), sb.from("subscriptions").select("*").maybeSingle(),
-    sb.from("user_ai_keys").select("provider,model,base_url,last4,status,tested_at,updated_at").maybeSingle(), // key itself is never readable
+    sb.from("user_ai_keys").select("id,provider,model,base_url,last4,status,tested_at,updated_at,is_default,created_at").order("is_default", { ascending: false }).order("created_at"), // key itself is never readable
     sb.from("brokerage_accounts").select("id,institution,name,number_mask,synced_at").order("institution"),
+    sb.rpc("my_plan"),
   ]);
-  ctx.profile = p.data; ctx.sub = s.data; ctx.key = k.data; ctx.brk = b.data || [];
+  ctx.profile = p.data; ctx.sub = s.data; ctx.keys = k.data || []; ctx.brk = b.data || [];
+  ctx.plan = (pl.data || [])[0] || { plan: "free", ai_connectors: 0, bots: 0 };
+  ctx.key = ctx.keys.find((x) => x.is_default) || ctx.keys[0] || null;
+  if (isPro()) { const { data: bt } = await sb.from("member_bots").select("*").order("created_at"); ctx.bots = bt || []; }
 }
 const ICON = { markets: '<path d="M4 19V9M10 19V5M16 19v-7M22 19H2" stroke="currentColor" stroke-width="2" fill="none"/>', live: '<circle cx="12" cy="12" r="4" fill="currentColor"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/>',
   research: AIICON.match(/<path[^>]+>/)[0], alerts: '<path d="M13 2L4 14h7l-1 8 9-12h-7z" fill="currentColor"/>', account: '<circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 21c1-5 15-5 16 0" fill="currentColor"/>' };
@@ -177,7 +204,7 @@ function nav() {
   $("#nav").innerHTML = items.map(([h, l]) => `<a href="#${h}" class="${on(h)}">${l}</a>`).join("") + `<a href="${ROOT}bots.html">My bots</a><a href="#/account" class="${on("/account")}">Account</a>`;
   $("#authnav").innerHTML = ctx.session ? `<button class="btn ghost sm" id="logout">Log out</button>` : `<a class="btn ghost sm" href="#/login">Log in</a><a class="btn sm" href="#/signup">Sign up</a>`;
   const mm = $("#moremenu"); if (mm) mm.innerHTML = `<details class="more-menu"><summary aria-label="More pages"><span class="more-l">More</span><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></summary>
-    <div class="more-pop"><a href="${ROOT}dashboard.html">Live dashboard <small>top traders</small></a><a href="${ROOT}results.html">Alert results</a><a href="${ROOT}bots.html">My bots</a><a href="#/research">Research</a><a href="#/alerts">Alerts</a><a href="${ROOT}about.html">About Closer AI</a></div></details>`;
+    <div class="more-pop"><a href="${ROOT}dashboard.html">Live dashboard <small>top traders</small></a><a href="${ROOT}results.html">Alert results</a><a href="${ROOT}bots.html">My bots</a><a href="#/research">Research</a><a href="#/alerts">Alerts</a><a href="#/pricing">Plans &amp; pricing <small>Free · $15.99 · $39.99</small></a><a href="${ROOT}about.html">About Closer AI</a></div></details>`;
   const lo = $("#logout"); if (lo) lo.onclick = async () => { await sb.auth.signOut(); location.hash = "#/markets"; };
   $("#mobnav").innerHTML = [["/markets", "Markets", "markets"], ["/live", "Live", "live"], ["/research", "Research", "research"], ["/alerts", "Alerts", "alerts"], ["/account", "Account", "account"]]
     .map(([h, l, i]) => `<a href="#${h}" class="${on(h)}"><svg viewBox="0 0 24 24">${ICON[i]}</svg>${l}</a>`).join("");
@@ -186,6 +213,9 @@ function nav() {
 }
 const blockedBox = () => ctx.profile && ctx.profile.state_blocked
   ? `<div class="flash err">Closer AI isn't available in your state${ctx.profile.state ? ` (${esc(ctx.profile.state)})` : ""}. AI features and connections are disabled for this account.</div>` : "";
+const upgradeBox = (title, text, inModal = false) => `<h2>${title}</h2><p class="mute" style="margin-top:8px">${text}</p><p style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><a class="btn" href="#/pricing" ${inModal ? "data-close" : ""}>See plans</a></p>`;
+const CK = `<svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const NO = `<svg class="ck no" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>`;
 const gate = (what = "this") => `<h1>Please log in</h1><p class="mute">Log in to use ${what}.</p><p style="display:flex;gap:8px"><a class="btn" href="#/login">Log in</a><a class="btn ghost" href="#/signup">Sign up</a></p>`;
 
 // ---------- views ----------
@@ -271,28 +301,31 @@ function closeModal() { $("#modal").hidden = true; $("#modal").innerHTML = ""; }
 async function ask(slug) {
   if (!ctx.session) return modal(`<h2>Ask your own AI</h2><p class="mute" style="margin-top:8px">Log in, connect your own AI key, and your AI will analyze this market's public data for you. Closer AI gives no picks of its own.</p><p style="display:flex;gap:8px;margin-top:12px"><a class="btn" href="#/login" data-close>Log in</a><a class="btn ghost" href="#/signup" data-close>Sign up</a></p>`);
   if (ctx.profile?.state_blocked) return modal(`<h2>Ask your AI</h2>${blockedBox()}`);
-  if (!active()) return modal(`<h2>Ask your AI</h2><p class="mute">This needs an active plan. <a href="#/pricing" data-close>See plans</a></p>`);
+  if (!hasAI()) return modal(upgradeBox("Ask your AI", "Your plan is Free, which covers markets, dashboards and stats. Connecting your own AI to analyze markets and your connected accounts is part of <b>Connect AI</b> (1 AI connector) or <b>Pro</b> (several connectors plus your own research and alert bots).", true));
   if (!ctx.key) return modal(`<h2>Connect your AI first</h2><p class="mute" style="margin-top:8px">Pick a provider (Grok, OpenAI, Claude, Gemini or any OpenAI-compatible API) and paste your own key. Your provider bills you directly.</p><p style="margin-top:12px"><a class="btn" href="#/account" data-close>Connect your AI</a></p>`);
   if (ctx.key.status === "invalid") return modal(`<h2>Ask your AI</h2><div class="flash err">Your saved ${esc(provName(ctx.key.provider))} key was rejected by the provider.</div><p><a class="btn" href="#/account" data-close>Replace your key</a></p>`);
-  const hasBrk = ctx.brk.length > 0;
-  modal(`<h2>Ask your AI</h2><p class="mute" style="margin:6px 0 10px;font-size:13px">${esc(provName(ctx.key.provider))} · <code>${esc(ctx.key.model || "")}</code> · billed to your provider account</p>
+  const hasBrk = ctx.brk.length > 0, multi = isPro() && ctx.keys.length > 1;
+  modal(`<h2>Ask your AI</h2><p class="mute" style="margin:6px 0 10px;font-size:13px">${multi ? `<select id="askprov" aria-label="AI connector" style="background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:4px 6px">${ctx.keys.filter((x) => x.status !== "invalid").map((x) => `<option value="${esc(x.provider)}" ${x.is_default ? "selected" : ""}>${esc(provName(x.provider))} · ${esc(x.model || "")}</option>`).join("")}</select>` : `${esc(provName(ctx.key.provider))} · <code>${esc(ctx.key.model || "")}</code>`} · billed to your provider account</p>
     ${hasBrk ? `<label class="mute" style="display:flex;gap:8px;font-size:13px;margin-bottom:10px"><input type="checkbox" id="inclH"> Include my brokerage holdings (read-only snapshot) as context</label>` : ""}
     <div id="askout"><div class="skel" style="min-height:120px"></div><p class="mute" style="font-size:12px">Your AI is reading the public market data…</p></div>`);
   const run = async (inc) => {
-    const { data, error } = await sb.functions.invoke("research-run", { body: { kind: "scan", event_slug: slug, include_holdings: !!inc } });
+    const prov = $("#askprov")?.value;
+    const { data, error } = await sb.functions.invoke("research-run", { body: { kind: "scan", event_slug: slug, include_holdings: !!inc, ...(prov ? { provider: prov } : {}) } });
     const out = $("#askout"); if (!out) return;
-    if (error) { const msg = await fnError(error); out.innerHTML = `<div class="flash err">${esc(msg)}</div>${/key|model|provider/i.test(msg) ? `<a class="btn ghost sm" href="#/account" data-close>Open Account</a>` : ""}`; return; }
+    if (error) { const msg = await fnError(error); out.innerHTML = `<div class="flash err">${esc(msg)}</div>${PLAN_CODES.has(lastErr) ? `<a class="btn sm" href="#/pricing" data-close>See plans</a>` : /key|model|provider/i.test(msg) ? `<a class="btn ghost sm" href="#/account" data-close>Open Account</a>` : ""}`; lastErr = ""; return; }
     out.innerHTML = `<div class="ans">${esc(data.result.summary)}</div><p class="mute" style="font-size:11.5px;margin-top:8px">${esc(data.result.disclaimer)}${data.result.usage?.total_tokens ? ` · ${data.result.usage.total_tokens} tokens` : ""}</p>`;
   };
   const cb = $("#inclH"); if (cb) cb.onchange = () => { $("#askout").innerHTML = '<div class="skel" style="min-height:120px"></div>'; run(cb.checked); };
+  const ap = $("#askprov"); if (ap) ap.onchange = () => { $("#askout").innerHTML = '<div class="skel" style="min-height:120px"></div>'; run(cb?.checked); };
   run(false);
 }
 document.addEventListener("click", async (e) => {
   const a = e.target.closest("[data-ask]"); if (a) { e.preventDefault(); return ask(a.dataset.ask); }
   if (e.target.closest("[data-close]") || e.target.id === "modal") closeModal();
   const b = e.target.closest("[data-buy]"); if (!b) return;
+  if (!ctx.session) { go("#/signup", "Create a free account first, then pick your plan."); return; }
   b.disabled = true; const { data, error } = await sb.functions.invoke("create-checkout", { body: { item: b.dataset.buy } }); b.disabled = false;
-  if (error) return flash(await fnError(error), true); if (data?.url) location.href = data.url;
+  if (error) return flash(await fnError(error), true); if (data?.url) location.href = data.url; else if (data?.switched) { flash(`Plan switched to ${limits(data.plan).label}.`); render(); }
 });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 $("#srch").onsubmit = (e) => { e.preventDefault(); const v = $("#q").value.trim(); location.hash = v ? `#/markets?q=${encodeURIComponent(v)}` : "#/markets"; };
@@ -311,11 +344,29 @@ const views = {
       ${(bots.strategies || []).map((x) => `<tr><td>${esc(x.name)}</td><td class="num">${x.settled}</td><td class="num">${x.wins}–${x.losses}</td><td class="num">${p(x.roi_pct)}</td></tr>`).join("")}</tbody></table></div>
       <p class="mute" style="padding:0 16px 14px;font-size:12px">Totals from our own accounts. Not a promise of future results and not advice. <a href="${ROOT}bots.html">Full bot stats →</a></p></section>`;
   },
-  "/pricing": () => `<h1 style="margin-top:18px">Pricing</h1>${ctx.beta ? `<div class="flash">Free beta: everything is free right now. No card needed.</div>` : ""}${HUB}<div class="g2"><div class="card pad" style="border-color:var(--green)"><h2>Member</h2>
-    <div class="big">$19<span class="mute" style="font-size:14px">/month</span></div><p class="mute">The connection hub: market browser, public smart-money alerts, and unlimited* research runs by <b>your own AI</b> with your own API key (billed by your provider, not Closer AI).</p>
-    ${ctx.beta ? `<p style="margin-top:10px"><span class="btn" style="cursor:default">Free during beta</span></p><p class="mute" style="font-size:12px;margin-top:6px">Paid plans start later; you'll be told before anything is charged.</p>` : `<p style="margin-top:10px"><button class="btn" data-buy="member" ${ctx.session ? "" : "disabled"}>Subscribe</button></p>`}</div>
-    <div class="card pad"><h2>Your AI, your key, your accounts</h2><p class="mute">Pick an AI provider and paste its key on your Account page. It's encrypted and only the last 4 characters are ever shown. Connections are read-only.</p></div></div>
-    <p class="mute" style="font-size:12px">*Fair-use limit of 60 runs per hour.</p>`,
+  "/pricing": () => {
+    const cur = ctx.session ? planId() : null, P = PLANS;
+    if (qs().get("checkout") === "cancel") setTimeout(() => flash("Checkout canceled. Nothing was charged."));
+    const li = (t, ok = true) => `<li>${ok ? CK : NO}<span>${t}</span></li>`;
+    const btn = (id) => {
+      if (cur === id) return `<span class="btn ghost plan-cur" aria-disabled="true">Your current plan</span>`;
+      if (id === "free") return ctx.session ? `<span class="btn ghost plan-cur" aria-disabled="true">Included with every account</span>` : `<a class="btn ghost" href="#/signup">Create free account</a>`;
+      if (ctx.profile?.state_blocked) return `<span class="btn ghost plan-cur" aria-disabled="true">Not available in your state</span>`;
+      return `<button class="btn${id === "pro" ? " ai" : ""}" data-buy="${id}">${cur && cur !== "free" ? "Switch to" : "Choose"} ${esc(P[id].label)}</button>`;
+    };
+    const card = (id, tag, blurb, items) => `<article class="card plan${cur === id ? " cur" : ""}${id === "connect" ? " hot" : ""}"><div class="plan-h"><h2>${esc(P[id].label)}</h2>${tag ? `<span class="tag">${tag}</span>` : ""}</div>
+      <div class="price">${usd(P[id].price_cents)}<small>/month</small></div><p class="mute plan-blurb">${blurb}</p><ul class="pfeat">${items.join("")}</ul><div class="plan-cta">${btn(id)}</div></article>`;
+    return `<div class="plans-hd"><h1>Plans</h1><p class="mute">Use the app for free. Add your own AI when you want it to analyze markets and your connected accounts.</p></div>
+      ${ctx.betaPlan && P[ctx.betaPlan] ? `<div class="flash">Beta: every account currently gets ${esc(P[ctx.betaPlan].label)} features at no charge.</div>` : ""}
+      <div class="plans3">
+      ${card("free", "", "The app itself: browse and keep track of markets.", [li("Markets browser with live prices and charts"), li("Live dashboard, alert results and logged bot stats"), li("Public smart-money alerts (information only)"), li("Your account and connected-accounts page"), li("No AI connection", false)])}
+      ${card("connect", "1 AI connector", "Connect one AI provider using your own key.", [li("Everything in Free"), li("Connect <b>1 AI provider</b>: Grok, OpenAI, Claude, Gemini or any OpenAI-compatible API"), li("Your AI analyzes markets and your read-only connected accounts"), li(`“Ask your AI” on any market, plus research runs (fair use: ${P.connect.runs_per_hour}/hour)`), li("Your AI provider bills its usage to your own account")])}
+      ${card("pro", "Multiple connectors + bots", "For members who use several AIs and want their own bots.", [li("Everything in Connect AI"), li(`Connect <b>up to ${P.pro.ai_connectors} AI providers</b> and pick one per run`), li(`More AI runs (fair use: ${P.pro.runs_per_hour}/hour)`), li(`Your own <b>research &amp; alert bots</b> (up to ${P.pro.bots}). They research and alert; they never place bets or trades`)])}
+      </div>
+      <p class="mute plan-note">Prices in USD, billed monthly through Stripe. Checkout runs in <b>Stripe test mode</b> while payments are being set up, so no real card is charged yet. Your AI provider bills its own usage separately.</p>
+      ${HUB}
+      <p class="mute plan-note">Closer AI gives no picks, tips or advice of its own and makes no promises about results. AI output is your own AI's educational analysis, not financial or betting advice.</p>`;
+  },
   "/signup": async () => {
     let blocked = ["UT"]; const { data } = await sb.from("blocked_states").select("state"); if (data && data.length) blocked = data.map((r) => r.state);
     setTimeout(() => {
@@ -348,30 +399,30 @@ const views = {
   "/research": async () => {
     if (!ctx.session) return gate("research with your own AI");
     if (ctx.profile?.state_blocked) return `<h1 style="margin-top:18px">Research</h1>${blockedBox()}`;
-    const hasKey = !!ctx.key && ctx.key.status !== "invalid", ok = active() && hasKey, hasBrk = ctx.brk.length > 0;
+    const hasKey = !!ctx.key && ctx.key.status !== "invalid", ok = hasAI() && hasKey, hasBrk = ctx.brk.length > 0, multi = isPro() && ctx.keys.length > 1;
     const { data: runs } = await sb.from("research_runs").select("id,kind,input,model,status,created_at").order("created_at", { ascending: false }).limit(20);
     setTimeout(() => document.querySelectorAll("form[data-kind]").forEach((f) => f.onsubmit = async (e) => {
       e.preventDefault(); const btn = f.querySelector("button"); btn.disabled = true; btn.textContent = "Your AI is working…";
-      const { data, error } = await sb.functions.invoke("research-run", { body: { kind: f.dataset.kind, query: f.q.value, include_holdings: !!f.h?.checked } });
+      const { data, error } = await sb.functions.invoke("research-run", { body: { kind: f.dataset.kind, query: f.q.value, include_holdings: !!f.h?.checked, ...(f.prov?.value ? { provider: f.prov.value } : {}) } });
       if (error) { flash(await fnError(error), true); return render(); }
       flash(`Run #${data.run_id} done · billed to ${data.result.billed_to}.`); sessionStorage.setItem("lastRun", JSON.stringify(data)); render();
     }));
     const last = JSON.parse(sessionStorage.getItem("lastRun") || "null");
-    const notice = !active() ? `<div class="flash err">Research needs an active plan. <a href="#/pricing">See plans</a></div>`
+    const notice = !hasAI() ? `<div class="flash err">Research with your own AI is part of Connect AI and Pro. Your Free plan covers markets, dashboards and stats. <a class="btn sm" href="#/pricing">See plans</a></div>`
       : !ctx.key ? `<div class="flash err">Connect your own AI provider key to run research. <a class="btn sm" href="#/account">Connect your AI</a></div>`
       : ctx.key.status === "invalid" ? `<div class="flash err">Your saved ${esc(provName(ctx.key.provider))} key was rejected. <a class="btn sm" href="#/account">Replace key</a></div>` : "";
     return `<h1 style="margin-top:18px">Research with your AI</h1><p class="mute" style="margin-top:-8px">${ctx.key ? `Using <b>${esc(provName(ctx.key.provider))}</b> · ${esc(ctx.key.model || "")} (key …${esc(ctx.key.last4)}). Your provider bills your account. <a href="#/account">Change</a>` : "Runs use your own AI provider key."} Closer AI only connects the data; the analysis is your AI's.</p>${notice}
       <div class="g2">${Object.entries(RUNS).map(([k, [n]]) => `<form class="card pad f" data-kind="${k}" style="max-width:none"><h2>${n}</h2>
-        <input name="q" placeholder="Topic (optional), e.g. NFL" maxlength="200">${hasBrk ? `<label class="ck"><input type="checkbox" name="h"> Include my brokerage holdings</label>` : ""}<button class="btn ai" ${ok ? "" : "disabled"}>${AIICON}Run</button></form>`).join("")}</div>
+        <input name="q" placeholder="Topic (optional), e.g. NFL" maxlength="200">${multi ? `<select name="prov" aria-label="AI connector">${ctx.keys.filter((x) => x.status !== "invalid").map((x) => `<option value="${esc(x.provider)}" ${x.is_default ? "selected" : ""}>${esc(provName(x.provider))} · ${esc(x.model || "")}</option>`).join("")}</select>` : ""}${hasBrk ? `<label class="ck"><input type="checkbox" name="h"> Include my brokerage holdings</label>` : ""}<button class="btn ai" ${ok ? "" : "disabled"}>${AIICON}Run</button></form>`).join("")}</div>
       ${last ? `<div class="card pad" style="margin:12px 0"><h2>Latest result <span class="mute" style="font-weight:500;font-size:13px">(${esc(last.result.provider_name || "")} · ${esc(last.result.model)} · billed to ${esc(last.result.billed_to || "your provider")})</span></h2><div class="ans">${esc(last.result.summary)}</div>
         <details style="margin-top:8px"><summary class="mute">Data your AI used</summary><pre>${esc(JSON.stringify(last.result.markets, null, 1))}</pre></details><p class="mute" style="font-size:12px;margin-top:6px">${esc(last.result.disclaimer)}</p></div>` : ""}
       <section class="card tblwrap"><div class="card-h"><h2>Your runs</h2></div><table><thead><tr><th>#</th><th>Type</th><th>Topic</th><th>Model</th><th>Status</th><th>When</th></tr></thead><tbody>
-      ${(runs || []).map((r) => `<tr><td>${r.id}</td><td>${esc(RUNS[r.kind]?.[0])}</td><td>${esc(r.input)}</td><td>${esc(r.model || "–")}</td><td>${esc(r.status)}</td><td>${new Date(r.created_at).toLocaleString()}</td></tr>`).join("") || `<tr><td colspan=6 class=mute>No runs yet.</td></tr>`}</tbody></table></section>`;
+      ${(runs || []).map((r) => `<tr><td>${r.id}</td><td>${esc(RUNS[r.kind]?.[0] || (r.kind === "bot" ? "Bot run" : r.kind))}</td><td>${esc(r.input)}</td><td>${esc(r.model || "–")}</td><td>${esc(r.status)}</td><td>${new Date(r.created_at).toLocaleString()}</td></tr>`).join("") || `<tr><td colspan=6 class=mute>No runs yet.</td></tr>`}</tbody></table></section>`;
   },
   "/account": async () => {
     if (!ctx.session) return gate("your account");
-    const q = qs(); if (q.get("checkout") === "success") flash("Payment received. Your plan activates once Stripe confirms.");
-    const p = ctx.profile || {}, k = ctx.key;
+    const q = qs(); if (q.get("checkout") === "success") setTimeout(() => flash("Checkout complete (test mode). Your plan switches on once Stripe confirms."));
+    const p = ctx.profile || {}, k = ctx.key, lim = ctx.plan?.ai_connectors ?? 0, have = ctx.keys.map((x) => x.provider);
     let brkCfg = null, hold = [];
     if (!p.state_blocked) {
       const [st, h] = await Promise.all([sb.functions.invoke("brokerage", { body: { action: "status" } }).catch(() => ({})),
@@ -380,16 +431,42 @@ const views = {
     }
     setTimeout(() => accountWire(q));
     const keyForm = (hidden) => `<form class="f" id="keyform" style="margin-top:10px;${hidden ? "display:none" : ""}" autocomplete="off">
-        <label class="mute" style="font-size:12px">AI provider</label><select name="provider">${Object.entries(AI).map(([id, c]) => `<option value="${id}" ${k?.provider === id ? "selected" : ""}>${c.name}</option>`).join("")}</select>
+        <label class="mute" style="font-size:12px">AI provider</label><select name="provider">${Object.entries(AI).map(([id, c]) => `<option value="${id}" ${have.includes(id) ? "data-have" : ""}>${c.name}</option>`).join("")}</select>
         <div id="basewrap" style="display:none;gap:6px"><input name="base_url" type="url" placeholder="https://api.example.com/v1" spellcheck="false"><span class="mute" style="font-size:11px">https only; private/local addresses are blocked.</span></div>
         <input name="key" type="password" autocomplete="off" spellcheck="false" required><label class="mute" style="font-size:12px">Model</label>
         <select name="model"></select><input id="modelother" placeholder="model ID" style="display:none" spellcheck="false">
-        <button class="btn" type="submit">${k ? "Save new key" : "Save key"}</button><p class="mute" style="font-size:12px" id="keyhelp"></p></form>`;
-    const statusTxt = k ? ({ valid: '<span class="tag ok">verified</span>', invalid: '<span class="tag" style="color:var(--red)">rejected</span>', untested: '<span class="tag">not tested</span>', unverified: '<span class="tag">saved, not confirmed</span>' })[k.status] : "";
-    const inList = k && AI[k.provider]?.models.includes(k.model);
-    const modelPicker = k && k.provider !== "custom" ? `<div class="f" style="margin-top:8px;grid-template-columns:1fr auto;max-width:460px"><select id="modelpick">${AI[k.provider].models.map((m) => `<option ${m === k.model ? "selected" : ""}>${m}</option>`).join("")}<option value="__other" ${inList ? "" : "selected"}>Other model ID…</option></select><button class="btn ghost sm" id="modelsave">Save model</button>
-        <input id="modelpick2" value="${inList ? "" : esc(k.model || "")}" placeholder="model ID" style="${inList ? "display:none" : ""}"></div>`
-      : k ? `<div class="f" style="margin-top:8px;grid-template-columns:1fr auto;max-width:460px"><input type="hidden" id="modelpick" value="__other"><input id="modelpick2" value="${esc(k.model || "")}" placeholder="model ID"><button class="btn ghost sm" id="modelsave">Save model</button></div>` : "";
+        <button class="btn" type="submit">Save key</button><p class="mute" style="font-size:12px" id="keyhelp"></p></form>`;
+    const ST = { valid: '<span class="tag ok">verified</span>', invalid: '<span class="tag" style="color:var(--red)">rejected</span>', untested: '<span class="tag">not tested</span>', unverified: '<span class="tag">saved, not confirmed</span>' };
+    const modelForm = (x) => { const models = AI[x.provider]?.models || [], inList = models.includes(x.model);
+      return `<details class="mdl"><summary class="mute">Change model</summary><form class="f mform" data-prov="${esc(x.provider)}" style="grid-template-columns:minmax(0,1fr) auto;max-width:460px;margin-top:6px">
+        ${models.length ? `<select name="m">${models.map((m) => `<option ${m === x.model ? "selected" : ""}>${m}</option>`).join("")}<option value="__other" ${inList ? "" : "selected"}>Other model ID…</option></select>` : `<input type="hidden" name="m" value="__other">`}
+        <button class="btn ghost sm">Save model</button><input name="o" value="${inList ? "" : esc(x.model || "")}" placeholder="model ID" spellcheck="false" style="grid-column:1/-1;${inList && models.length ? "display:none" : ""}"></form></details>`; };
+    const keyRow = (x) => `<div class="aik"><div class="aik-i"><b>${esc(provName(x.provider))}</b>${isPro() && ctx.keys.length > 1 && x.is_default ? '<span class="tag ok">default</span>' : ""}${ST[x.status] || ""}
+        <p class="mute" style="font-size:12.5px">model <code>${esc(x.model || "")}</code> · key <code>••••${esc(x.last4)}</code>${x.base_url ? ` · ${esc(x.base_url)}` : ""}${x.tested_at ? ` · checked ${new Date(x.tested_at).toLocaleDateString()}` : ""}</p>${modelForm(x)}</div>
+        <div class="aik-act" data-prov="${esc(x.provider)}"><button class="btn ghost sm" data-k="test">Test</button>${isPro() && !x.is_default ? '<button class="btn ghost sm" data-k="default">Make default</button>' : ""}<button class="btn ghost sm" data-k="replace">Replace key</button><button class="btn ghost sm" data-k="delete">Remove</button></div></div>`;
+    const aiCard = !hasAI()
+      ? `<div class="conn" id="aicard" style="grid-column:1/-1"><div class="ic" style="background:var(--green);color:var(--greenink)">${AIICON}</div><div style="flex:1;min-width:0"><h3>Your AI provider <span class="tag">Connect AI or Pro</span></h3>
+        <p class="mute" style="font-size:13px">Your Free plan doesn't include an AI connection. With <b>Connect AI</b> you connect one AI provider (your own key) to analyze markets and your connected accounts; <b>Pro</b> lets you connect several and run your own research and alert bots.</p>
+        <p style="margin-top:10px"><a class="btn" href="#/pricing">See plans</a></p></div></div>`
+      : `<div class="conn" id="aicard" style="grid-column:1/-1"><div class="ic" style="background:var(--green);color:var(--greenink)">${AIICON}</div><div style="flex:1;min-width:0"><h3>Your AI connectors <span class="tag${ctx.keys.length ? " ok" : ""}">${ctx.keys.length} of ${lim} used</span></h3>
+        ${ctx.keys.length ? ctx.keys.map(keyRow).join("") : `<p class="mute" style="font-size:13px">Pick any provider and use your own API key; runs bill to your account with that provider.</p>`}
+        ${ctx.keys.length > lim ? `<div class="flash err" style="margin-top:10px">Your plan includes ${lim} AI connector${lim === 1 ? "" : "s"}. Only your default connector is used until you remove extras or upgrade.</div>` : ""}
+        ${ctx.keys.length < lim ? (ctx.keys.length ? `<p style="margin-top:10px"><button class="btn sm" id="keyadd">Add another AI</button></p>` : "")
+          : planId() === "connect" ? `<p class="mute" style="font-size:12.5px;margin-top:10px">Connect AI includes 1 AI connector. To use a different provider, remove this one first, or <a href="#/pricing"><b>upgrade to Pro</b></a> to connect several at once.</p>`
+          : `<p class="mute" style="font-size:12.5px;margin-top:10px">You've connected the Pro maximum of ${lim} AI providers.</p>`}
+        ${keyForm(ctx.keys.length > 0)}</div></div>`;
+    const botsCard = `<section class="card pad" id="bots" style="margin-top:14px"><h2>Your bots <span class="tag">Pro</span></h2>
+      <p class="mute" style="font-size:13px;margin-top:6px">Bots use your own AI connector to research a topic or flag notable market changes for you. They research and alert only: they never place bets or trades, and Closer AI adds no advice of its own.</p>
+      ${!isPro() ? `<p style="margin-top:10px"><a class="btn" href="#/pricing">Upgrade to Pro</a></p>`
+        : `${ctx.bots.map((b) => `<div class="aik"><div class="aik-i"><b>${esc(b.name)}</b><span class="tag">${b.kind === "alert" ? "alert bot" : "research bot"}</span>${b.active ? "" : '<span class="tag">paused</span>'}
+            <p class="mute" style="font-size:12.5px">${esc(b.topic || "Top markets by 24h volume")} · ${b.provider ? esc(provName(b.provider)) : "default AI"}${b.last_run_at ? ` · last run ${new Date(b.last_run_at).toLocaleString()}` : ""}</p>
+            ${b.last_result?.text ? `<details class="mdl"><summary class="mute">Latest output</summary><div class="ans">${esc(b.last_result.text)}</div></details>` : ""}</div>
+            <div class="aik-act" data-bot="${b.id}"><button class="btn ai sm" data-b="run" ${b.active && ctx.keys.length ? "" : "disabled"}>${AIICON}Run now</button><button class="btn ghost sm" data-b="toggle">${b.active ? "Pause" : "Resume"}</button><button class="btn ghost sm" data-b="del">Delete</button></div></div>`).join("")}
+          ${ctx.bots.length < (ctx.plan?.bots ?? 0) ? `<form class="f" id="botform" style="max-width:none;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));margin-top:12px">
+            <input name="name" placeholder="Bot name, e.g. NFL watcher" maxlength="60" required><select name="kind"><option value="research">Research bot</option><option value="alert">Alert bot</option></select>
+            <input name="topic" placeholder="Topic, e.g. NFL or Fed rates" maxlength="200"><select name="provider"><option value="">Default AI</option>${ctx.keys.map((x) => `<option value="${esc(x.provider)}">${esc(provName(x.provider))}</option>`).join("")}</select>
+            <button class="btn">Create bot</button></form>` : `<p class="mute" style="font-size:12.5px;margin-top:10px">You've reached the Pro limit of ${ctx.plan?.bots ?? 0} bots.</p>`}
+          <p class="mute" style="font-size:11.5px;margin-top:8px">Bots run when you press “Run now” (scheduled runs are coming soon). Each run uses your own AI provider and counts toward your hourly fair-use limit.${ctx.keys.length ? "" : " Connect an AI above first."}</p>`}</section>`;
     const byAcct = (id) => hold.filter((h) => h.account_id === id);
     const brkCard = `<div class="conn" style="grid-column:1/-1"><div class="ic" style="background:var(--ai);color:var(--aiink)">$</div><div style="flex:1;min-width:0">
         <h3>Brokerage <span class="tag">read-only</span>${ctx.brk.length ? '<span class="tag ok">connected</span>' : brkCfg?.configured ? "" : '<span class="tag">coming soon</span>'}</h3>
@@ -397,23 +474,23 @@ const views = {
         ${ctx.brk.length ? ctx.brk.map((a) => `<div class="card" style="margin-top:10px;padding:10px 12px"><b>${esc(a.institution)}</b> · ${esc(a.name || "Account")} ${a.number_mask ? `…${esc(a.number_mask)}` : ""} <span class="mute" style="font-size:12px">${a.synced_at ? "synced " + new Date(a.synced_at).toLocaleString() : ""}</span>
             <div class="tblwrap"><table style="margin-top:6px"><thead><tr><th>Symbol</th><th class="num">Units</th><th class="num">Price</th><th class="num">Value</th></tr></thead><tbody>${byAcct(a.id).map((h) => `<tr><td><b>${esc(h.symbol)}</b> <span class="mute">${esc((h.description || "").slice(0, 40))}</span></td><td class="num">${Number(h.units || 0).toLocaleString()}</td><td class="num">${h.price != null ? Number(h.price).toLocaleString(undefined, { style: "currency", currency: h.currency || "USD" }) : "–"}</td><td class="num">${h.market_value != null ? Number(h.market_value).toLocaleString(undefined, { style: "currency", currency: h.currency || "USD" }) : "–"}</td></tr>`).join("") || `<tr><td colspan=4 class=mute>No positions.</td></tr>`}</tbody></table></div></div>`).join("")
           + `<p style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"><button class="btn ghost sm" id="brksync">Refresh holdings</button><button class="btn ghost sm" id="brkadd">Connect another</button><button class="btn ghost sm" id="brkdel">Disconnect all</button></p>`
+          : !hasAI() ? `<p class="mute" style="font-size:12.5px;margin-top:10px">Linking a brokerage for your AI to analyze is part of Connect AI and Pro. <a href="#/pricing"><b>See plans</b></a></p>`
           : `<p style="margin-top:10px"><button class="btn" id="brkadd" ${brkCfg?.configured ? "" : "disabled"}>Connect brokerage</button> ${brkCfg?.configured ? "" : `<span class="mute" style="font-size:12px">Coming soon, activates once enabled.</span>`}</p>`}
         <p class="mute" style="font-size:11.5px;margin-top:8px">Holdings are shown only to you (row-level security) and sent only to your own AI when you tick "include holdings". AI output is educational, not personalized financial advice.</p></div></div>`;
     return `<h1 style="margin-top:18px">Account</h1>${blockedBox()}
       <div class="g2"><div class="card pad"><h2>Profile</h2><p class="mute" style="margin-top:6px">${esc(ctx.session.user.email)}<br>State: ${esc(p.state || "–")} · 18+: ${p.adult_confirmed ? "yes" : "no"}</p></div>
-      <div class="card pad"><h2>Plan</h2><p class="mute" style="margin-top:6px">${paid() ? `Member · renews ${new Date(ctx.sub.current_period_end).toLocaleDateString()}` : ctx.beta ? "Free beta: full access, no payment needed." : esc(ctx.sub?.status || "No plan")}</p>
-        ${!active() && !p.state_blocked ? `<p style="margin-top:8px"><button class="btn" data-buy="member">Subscribe $19/mo</button></p>` : ""}</div></div>
+      <div class="card pad"><h2>Plan</h2><p style="margin-top:6px"><b>${esc(limits().label)}</b> <span class="mute">${usd(limits().price_cents)}/month</span></p>
+        <p class="mute" style="font-size:13px;margin-top:4px">${p.plan_override ? "Set on your account by Closer AI." : paid() ? `Renews ${new Date(ctx.sub.current_period_end).toLocaleDateString()} (Stripe test mode).` : ctx.betaPlan && planId() === ctx.betaPlan ? "Beta access, no charge." : planId() === "free" ? "Markets, dashboards and stats. No AI connection." : ""}
+        ${hasAI() ? `<br>AI connectors: ${ctx.keys.length} of ${lim}${isPro() ? ` · Bots: ${ctx.bots.length} of ${ctx.plan?.bots ?? 0}` : ""}` : ""}</p>
+        ${p.state_blocked ? "" : `<p style="margin-top:10px"><a class="btn${isPro() ? " ghost" : ""} sm" href="#/pricing">${planId() === "free" ? "Upgrade" : planId() === "connect" ? "Upgrade to Pro" : "View plans"}</a></p>`}</div></div>
       ${p.state_blocked ? "" : `<section class="card pad" id="connected"><h2>Connected accounts</h2>
         <p style="margin:8px 0 12px;font-size:13.5px">Closer AI is only a connection hub. <b>Your own AI</b> (your key) analyzes <b>your own connected accounts</b>. Closer AI gives no suggestions of its own and no shared picks. Your money never leaves your brokerage or market account: Closer AI holds <b>no funds</b> and has <b>read-only</b> access. Nothing here can place bets, trades, or transfers.</p>
         <div class="g2" style="margin:0;grid-template-columns:minmax(0,1fr)">
-        <div class="conn" id="aicard" style="grid-column:1/-1"><div class="ic" style="background:var(--green);color:var(--greenink)">${AIICON}</div><div style="flex:1;min-width:0"><h3>Your AI provider ${k ? statusTxt : '<span class="tag">not connected</span>'}</h3>
-        ${k ? `<p><b>${esc(provName(k.provider))}</b>${k.base_url ? ` · <span class="mute">${esc(k.base_url)}</span>` : ""} · model <code>${esc(k.model || "")}</code> · key <code>••••${esc(k.last4)}</code></p><p class="mute" style="font-size:12px">${k.tested_at ? "Last checked " + new Date(k.tested_at).toLocaleString() : ""}</p>${modelPicker}
-          <p style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn ghost sm" id="keytest">Test key</button><button class="btn ghost sm" id="keyrep">Replace / switch provider</button><button class="btn ghost sm" id="keydel">Delete</button></p>${keyForm(true)}`
-        : `<p class="mute" style="font-size:13px">Pick any provider and use your own API key; runs bill to your account with that provider.</p>${keyForm(false)}`}</div></div>
+        ${aiCard}
         ${brkCard}
         <div class="g2" style="grid-column:1/-1;margin:0;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))"><div class="conn"><div class="ic" style="background:#2563eb">P</div><div><h3>Polymarket <span class="tag">view-only · coming soon</span></h3><p class="mute" style="font-size:13px">See your own positions read-only so your AI can analyze them. Public market data already works without connecting.</p></div></div>
         <div class="conn"><div class="ic" style="background:#6b7280">K</div><div><h3>Kalshi <span class="tag">view-only · coming soon</span></h3><p class="mute" style="font-size:13px">Read-only view of your own positions. No trading, no transfers.</p></div></div></div>
-        </div></section>`}`;
+        </div></section>${botsCard}`}`;
   },
 };
 function accountWire(q) {
@@ -426,17 +503,42 @@ function accountWire(q) {
       if (pv === "custom") form.model.value = "__other";
       $("#modelother").style.display = pv === "custom" || form.model.value === "__other" ? "block" : "none"; form.model.style.display = pv === "custom" ? "none" : "block";
       $("#keyhelp").textContent = `Get a key at ${cat.console}. It's encrypted at rest and never shown again; only the last 4 characters are displayed. Your provider bills your runs to your own account.`; };
-    form.provider.onchange = sync; form.model.onchange = () => { $("#modelother").style.display = form.model.value === "__other" ? "block" : "none"; }; sync();
+    const open = (lock) => { // lock = replace that provider's key; otherwise add a new provider
+      [...form.provider.options].forEach((o) => { o.hidden = lock ? o.value !== lock : o.hasAttribute("data-have"); o.disabled = o.hidden; });
+      form.provider.value = lock || ([...form.provider.options].find((o) => !o.hidden)?.value ?? "xai");
+      form.querySelector("button[type=submit]").textContent = lock ? `Save new ${provName(lock)} key` : "Save key";
+      form.style.display = "grid"; sync(); form.key.focus(); };
+    form.provider.onchange = sync; form.model.onchange = () => { $("#modelother").style.display = form.model.value === "__other" ? "block" : "none"; };
+    if (form.style.display !== "none") open(null); else sync();
+    const ka = $("#keyadd"); if (ka) ka.onclick = () => { ka.style.display = "none"; open(null); };
+    document.querySelectorAll(".aik-act[data-prov] button").forEach((b) => b.onclick = () => {
+      const pv = b.parentElement.dataset.prov, k = b.dataset.k;
+      if (k === "replace") return open(pv);
+      if (k === "test") { b.disabled = true; b.textContent = "Testing…"; return keyCall({ action: "test", provider: pv }, (d) => d.status === "valid" ? `${provName(pv)} accepted the key.` : "Couldn't confirm the key right now."); }
+      if (k === "default") return keyCall({ action: "default", provider: pv }, `${provName(pv)} is now your default AI.`);
+      if (k === "delete" && confirm(`Remove your ${provName(pv)} key from Closer AI?`)) keyCall({ action: "delete", provider: pv }, `${provName(pv)} key removed.`);
+    });
     form.onsubmit = async (e) => { e.preventDefault(); const v = form.key.value.trim(); form.key.value = "";
       const model = form.model.value === "__other" || form.provider.value === "custom" ? $("#modelother").value.trim() : form.model.value;
       const btn = form.querySelector("button[type=submit]"); btn.disabled = true; btn.textContent = "Checking with provider…";
       await keyCall({ action: "save", provider: form.provider.value, key: v, model, base_url: form.base_url.value.trim() }, (d) => `${provName(d.provider)} key saved (…${d.last4})${d.status === "valid" ? " and verified." : ". Saved, but the provider couldn't confirm it yet."}`); };
   }
-  const t = $("#keytest"); if (t) t.onclick = () => { t.disabled = true; t.textContent = "Testing…"; keyCall({ action: "test" }, (d) => d.status === "valid" ? "Your provider accepted the key." : "Couldn't confirm the key right now."); };
-  const d = $("#keydel"); if (d) d.onclick = () => { if (confirm("Remove your AI provider key from Closer AI?")) keyCall({ action: "delete" }, "AI provider key removed."); };
-  const r = $("#keyrep"); if (r) r.onclick = () => { $("#keyform").style.display = "grid"; r.style.display = "none"; };
-  const ms = $("#modelsave"); if (ms) ms.onclick = () => { const v = $("#modelpick").value === "__other" ? $("#modelpick2").value.trim() : $("#modelpick").value; keyCall({ action: "model", model: v }, `Model set to ${v}.`); };
-  const mp = $("#modelpick"); if (mp) mp.onchange = () => { $("#modelpick2").style.display = mp.value === "__other" ? "block" : "none"; };
+  document.querySelectorAll("form.mform").forEach((f) => {
+    if (f.m.tagName === "SELECT") f.m.onchange = () => { f.o.style.display = f.m.value === "__other" ? "block" : "none"; };
+    f.onsubmit = (e) => { e.preventDefault(); const v = f.m.value === "__other" ? f.o.value.trim() : f.m.value; keyCall({ action: "model", provider: f.dataset.prov, model: v }, `Model set to ${v}.`); };
+  });
+  const bf = $("#botform");
+  if (bf) bf.onsubmit = async (e) => { e.preventDefault(); bf.querySelector("button").disabled = true;
+    const { error } = await sb.from("member_bots").insert({ name: bf.name.value.trim(), kind: bf.kind.value, topic: bf.topic.value.trim(), provider: bf.provider.value || null, cadence: "manual" });
+    if (error) { flash(dbError(error), true); return render(); } flash("Bot created. Press “Run now” to run it with your AI."); render(); };
+  document.querySelectorAll(".aik-act[data-bot] button").forEach((b) => b.onclick = async () => {
+    const id = Number(b.parentElement.dataset.bot), bot = ctx.bots.find((x) => x.id === id), k = b.dataset.b; if (!bot) return;
+    if (k === "run") { b.disabled = true; b.textContent = "Your AI is working…";
+      const { error } = await sb.functions.invoke("research-run", { body: { bot_id: id } });
+      if (error) { flash(await fnError(error), true); return render(); } flash(`“${bot.name}” finished. Output saved below.`); return render(); }
+    if (k === "toggle") { const { error } = await sb.from("member_bots").update({ active: !bot.active }).eq("id", id); if (error) flash(dbError(error), true); return render(); }
+    if (k === "del" && confirm(`Delete the bot “${bot.name}”?`)) { const { error } = await sb.from("member_bots").delete().eq("id", id); if (error) flash(dbError(error), true); else flash("Bot deleted."); render(); }
+  });
   const brk = async (action, okMsg) => { const { data, error } = await sb.functions.invoke("brokerage", { body: { action } }); if (error) { flash(await fnError(error), true); return null; } if (okMsg) { flash(okMsg); render(); } return data; };
   const add = $("#brkadd"); if (add) add.onclick = async () => { add.disabled = true; const dt = await brk("connect"); add.disabled = false; if (dt?.url) location.href = dt.url; };
   const sy = $("#brksync"); if (sy) sy.onclick = () => { sy.disabled = true; sy.textContent = "Refreshing…"; brk("sync", "Holdings refreshed (read-only)."); };
